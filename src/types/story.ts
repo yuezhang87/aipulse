@@ -6,8 +6,16 @@ export type Category =
   | "Coding"
   | "Writing";
 
+export interface StoryTool {
+  name: string;
+  job: string;
+  review: string;
+  url: string;
+}
+
 export interface Story {
   id: string;
+  slug: string;
   title: string;
   summary: string;
   source: string;
@@ -17,4 +25,6 @@ export interface Story {
   readTime: number;
   fireCount: number;
   imageUrl?: string;
+  content: string[];
+  tool: StoryTool;
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Story } from "@/types/story";
 
 const categoryColors: Record<string, string> = {
@@ -43,8 +44,8 @@ export default function StoryCard({ story, featured = false }: Props) {
 
   if (featured) {
     return (
-      <a
-        href={story.sourceUrl}
+      <Link
+        href={`/story/${story.slug}`}
         className="group block bg-[var(--card-bg)] border border-[var(--border)] rounded-2xl p-6 hover:border-[#7F77DD]/50 hover:shadow-xl hover:shadow-[#7F77DD]/5 transition-all duration-300"
       >
         {/* Top row: category + time */}
@@ -100,13 +101,13 @@ export default function StoryCard({ story, featured = false }: Props) {
             <span className="font-semibold tabular-nums">{fires}</span>
           </button>
         </div>
-      </a>
+      </Link>
     );
   }
 
   return (
-    <a
-      href={story.sourceUrl}
+    <Link
+      href={`/story/${story.slug}`}
       className="group flex gap-4 py-4 border-b border-[var(--border)] last:border-0 hover:bg-[var(--card-bg)] -mx-4 px-4 rounded-xl transition-all duration-200"
     >
       {/* Text content */}
@@ -153,6 +154,6 @@ export default function StoryCard({ story, featured = false }: Props) {
           <span className="font-semibold tabular-nums">{fires}</span>
         </button>
       </div>
-    </a>
+    </Link>
   );
 }
