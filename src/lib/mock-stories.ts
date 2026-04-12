@@ -115,7 +115,7 @@ export const mockStories: Story[] = [
     summary:
       "We process 200+ earnings call transcripts per quarter. After training a fine-tuned summarisation pipeline on historical calls, our analysts spend 70% less time on transcripts and more time on actual thesis development. Full technical breakdown inside.",
     source: "Fintech Insider",
-    sourceUrl: "https://fintechinsider.com",
+    sourceUrl: "https://www.finextra.com",
     publishedAt: "2026-04-09T16:00:00Z",
     category: "Finance",
     readTime: 9,
