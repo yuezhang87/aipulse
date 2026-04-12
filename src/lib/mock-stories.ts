@@ -14,7 +14,7 @@ export const mockStories: Story[] = [
     category: "Health",
     readTime: 6,
     fireCount: 312,
-    imageUrl: "https://picsum.photos/seed/er-doctor-chatgpt/84/84",
+    imageUrl: "https://miro.medium.com/1*zVkc5iNVMQQIApQS_OKAAA.jpeg",
     content: [],
     tool: {
       name: "ChatGPT",
@@ -37,7 +37,7 @@ export const mockStories: Story[] = [
     category: "Design",
     readTime: 5,
     fireCount: 287,
-    imageUrl: "https://picsum.photos/seed/claude-3d-parts/84/84",
+    imageUrl: "https://miro.medium.com/1*VMAxSVdfT9DuwZl3QFWRYg.png",
     content: [],
     tool: {
       name: "Claude",
@@ -60,7 +60,7 @@ export const mockStories: Story[] = [
     category: "Business",
     readTime: 7,
     fireCount: 341,
-    imageUrl: "https://picsum.photos/seed/ai-one-person-biz/84/84",
+    imageUrl: "https://i.ytimg.com/vi/VXgusdDbsQE/maxresdefault.jpg",
     content: [],
     tool: {
       name: "ChatGPT",
