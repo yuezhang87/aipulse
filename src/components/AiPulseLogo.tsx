@@ -41,9 +41,9 @@ export default function AiPulseLogo({ size = 32 }: Props) {
 
       {/* Pulse wave — dramatic EKG: Q dip → sharp R spike to y=5 → deep S trough → baseline */}
       <path
-        d="M 2,20 L 7,20 L 8.5,22 L 9.5,5 L 10.5,26 L 11.5,20 L 30,20"
+        d="M 2,16 L 8,16 L 10,20 L 12,6 L 14,24 L 16,16 L 30,16"
         stroke="url(#navPulseGrad)"
-        strokeWidth="1.5"
+        strokeWidth="1.2"
         fill="none"
         strokeLinecap="round"
         strokeLinejoin="round"
