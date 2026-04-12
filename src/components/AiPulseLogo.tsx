@@ -43,7 +43,7 @@ export default function AiPulseLogo({ size = 32 }: Props) {
       <path
         d="M 2,20 L 7,20 L 8.5,22 L 9.5,5 L 10.5,26 L 11.5,20 L 30,20"
         stroke="url(#navPulseGrad)"
-        strokeWidth="1.75"
+        strokeWidth="1.5"
         fill="none"
         strokeLinecap="round"
         strokeLinejoin="round"
