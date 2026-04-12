@@ -8,7 +8,7 @@ export const mockStories: Story[] = [
     summary:
       "As a solo designer at a 12-person startup, I used Figma's AI features to generate component variants, auto-layout suggestions, and copy alternatives. What used to take two sprints took two days. Here's my exact workflow.",
     source: "Maya R. on Medium",
-    sourceUrl: "#",
+    sourceUrl: "https://medium.com",
     publishedAt: "2026-04-11T10:00:00Z",
     category: "Design",
     readTime: 6,
@@ -35,7 +35,7 @@ export const mockStories: Story[] = [
     summary:
       "My patients often leave consultations confused by medical jargon. I started using Claude on my tablet to rephrase doctor's notes into plain English on the spot. Patient comprehension scores on our ward went up 40% in six weeks.",
     source: "r/nursing",
-    sourceUrl: "#",
+    sourceUrl: "https://www.reddit.com/r/nursing",
     publishedAt: "2026-04-11T08:30:00Z",
     category: "Health",
     readTime: 5,
@@ -62,7 +62,7 @@ export const mockStories: Story[] = [
     summary:
       "I'm a PhD student in materials science. I switched my entire literature review process to Perplexity AI three months ago. It cites sources, handles follow-up questions, and surfaces papers I'd never have found on Google Scholar. But it's not perfect.",
     source: "Hacker News",
-    sourceUrl: "#",
+    sourceUrl: "https://news.ycombinator.com",
     publishedAt: "2026-04-10T14:00:00Z",
     category: "Research",
     readTime: 7,
@@ -89,7 +89,7 @@ export const mockStories: Story[] = [
     summary:
       "Copilot is genuinely impressive for boilerplate and CRUD operations. But when I shipped a feature that was 80% AI-generated without deeply reviewing it, I introduced three subtle bugs that only showed in production. Lessons learned the hard way.",
     source: "Dev.to",
-    sourceUrl: "#",
+    sourceUrl: "https://dev.to",
     publishedAt: "2026-04-10T11:00:00Z",
     category: "Coding",
     readTime: 8,
@@ -115,7 +115,7 @@ export const mockStories: Story[] = [
     summary:
       "We process 200+ earnings call transcripts per quarter. After training a fine-tuned summarisation pipeline on historical calls, our analysts spend 70% less time on transcripts and more time on actual thesis development. Full technical breakdown inside.",
     source: "Fintech Insider",
-    sourceUrl: "#",
+    sourceUrl: "https://fintechinsider.com",
     publishedAt: "2026-04-09T16:00:00Z",
     category: "Finance",
     readTime: 9,
@@ -142,7 +142,7 @@ export const mockStories: Story[] = [
     summary:
       "I used Claude as a co-writer for my debut thriller — brainstorming plot holes, writing dialogue drafts, and pushing through blocks. The book is done and my agent loves it. But I'm still wrestling with what authorship means now.",
     source: "Electric Lit",
-    sourceUrl: "#",
+    sourceUrl: "https://electricliterature.com",
     publishedAt: "2026-04-09T09:00:00Z",
     category: "Writing",
     readTime: 10,
@@ -169,7 +169,7 @@ export const mockStories: Story[] = [
     summary:
       "Six months ago I was stuck needing senior review for every PR. Using Cursor with Claude as an always-on mentor, I can now ship complete features, write tests, and debug production issues independently. This is what pair programming should have always been.",
     source: "Personal blog",
-    sourceUrl: "#",
+    sourceUrl: "https://dev.to",
     publishedAt: "2026-04-08T12:00:00Z",
     category: "Coding",
     readTime: 5,
@@ -195,7 +195,7 @@ export const mockStories: Story[] = [
     summary:
       "More of my clients are showing up having already processed emotions with ChatGPT before our sessions. Some arrive more self-aware; others have reinforced unhelpful patterns. As a therapist, I'm learning to work with AI — not against it.",
     source: "Psychology Today",
-    sourceUrl: "#",
+    sourceUrl: "https://www.psychologytoday.com",
     publishedAt: "2026-04-08T07:00:00Z",
     category: "Health",
     readTime: 6,
@@ -222,7 +222,7 @@ export const mockStories: Story[] = [
     summary:
       "Fed five years of marketing assets into a vision model and asked it to catalogue typography, colour, and tone-of-voice inconsistencies. It found 47 issues across our website, decks, and social profiles. Our brand team was humbled.",
     source: "Brand New",
-    sourceUrl: "#",
+    sourceUrl: "https://www.underconsideration.com/brandnew",
     publishedAt: "2026-04-07T13:00:00Z",
     category: "Design",
     readTime: 4,
@@ -248,7 +248,7 @@ export const mockStories: Story[] = [
     summary:
       "I run a one-person ghostwriting business. ChatGPT drafts, I refine, my clients post. Controversial take: the AI handles the structure and research, the human handles the voice and judgment. That split is actually ideal for this format.",
     source: "Substack",
-    sourceUrl: "#",
+    sourceUrl: "https://substack.com",
     publishedAt: "2026-04-07T09:00:00Z",
     category: "Writing",
     readTime: 5,
@@ -275,7 +275,7 @@ export const mockStories: Story[] = [
     summary:
       "The pipeline worked for six months. Then regulations changed, the model hallucinated a key figure in a client report, and we had no junior analyst who understood our domain to catch it. The cost of that mistake exceeded what we saved.",
     source: "Bloomberg Opinion",
-    sourceUrl: "#",
+    sourceUrl: "https://www.bloomberg.com/opinion",
     publishedAt: "2026-04-06T14:00:00Z",
     category: "Finance",
     readTime: 7,
@@ -301,7 +301,7 @@ export const mockStories: Story[] = [
     summary:
       "Before spinning up any Figma files, I now use Midjourney and GPT-4V to generate rough UI mockups from plain-English descriptions. Stakeholder alignment happens in hours, not days. The fidelity is rough but the speed is transformative.",
     source: "UX Collective",
-    sourceUrl: "#",
+    sourceUrl: "https://uxdesign.cc",
     publishedAt: "2026-04-06T10:00:00Z",
     category: "Design",
     readTime: 4,
