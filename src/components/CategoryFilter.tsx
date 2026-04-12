@@ -1,5 +1,9 @@
 "use client";
 
+const categoryEmojis: Record<string, string> = {
+  Business: "💼",
+};
+
 interface Props {
   categories: readonly string[];
   active: string;
@@ -19,7 +23,7 @@ export default function CategoryFilter({ categories, active, onChange }: Props) 
               : "bg-transparent border-[var(--border)] text-[var(--foreground)] opacity-60 hover:opacity-100 hover:border-[#7F77DD]/50"
           }`}
         >
-          {cat}
+          {categoryEmojis[cat] ? `${categoryEmojis[cat]} ${cat}` : cat}
         </button>
       ))}
     </div>

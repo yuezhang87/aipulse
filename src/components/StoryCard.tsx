@@ -11,6 +11,7 @@ const categoryColors: Record<string, string> = {
   Health: "bg-teal-500/10 text-teal-400 border-teal-500/20",
   Coding: "bg-[#7F77DD]/10 text-[#a29ce8] border-[#7F77DD]/20",
   Writing: "bg-orange-500/10 text-orange-400 border-orange-500/20",
+  Business: "bg-amber-500/10 text-amber-400 border-amber-500/20",
 };
 
 function timeAgo(dateStr: string): string {
