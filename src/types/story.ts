@@ -4,7 +4,8 @@ export type Category =
   | "Finance"
   | "Health"
   | "Coding"
-  | "Writing";
+  | "Writing"
+  | "Business";
 
 export interface StoryTool {
   name: string;
@@ -21,6 +22,7 @@ export interface Story {
   source: string;
   sourceUrl: string;
   publishedAt: string;
+  author?: string;
   category: Category;
   readTime: number;
   fireCount: number;
