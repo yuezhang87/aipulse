@@ -51,11 +51,16 @@ export default function StoryCard({ story, featured = false }: Props) {
       >
         {/* Top row: category + time */}
         <div className="flex items-start justify-between gap-4 mb-3">
-          <span
-            className={`text-xs px-2.5 py-0.5 rounded-full border font-medium ${categoryColors[story.category]}`}
-          >
-            {story.category}
-          </span>
+          <div className="flex items-center gap-2">
+            <span
+              className={`text-xs px-2.5 py-0.5 rounded-full border font-medium ${categoryColors[story.category]}`}
+            >
+              {story.category}
+            </span>
+            {story.spicy && (
+              <span title="Spicy take" className="text-sm leading-none">🌶️</span>
+            )}
+          </div>
           <span className="text-xs text-[var(--foreground)] opacity-40 shrink-0">
             {timeAgo(story.publishedAt)}
           </span>
@@ -119,6 +124,9 @@ export default function StoryCard({ story, featured = false }: Props) {
           >
             {story.category}
           </span>
+          {story.spicy && (
+            <span title="Spicy take" className="text-sm leading-none">🌶️</span>
+          )}
         </div>
         <h3 className="text-sm font-semibold text-white group-hover:text-[#a29ce8] transition-colors leading-snug mb-1.5 line-clamp-2">
           {story.title}

@@ -309,6 +309,38 @@ export const mockStories: Story[] = [
       url: "https://www.midjourney.com",
     },
   },
+  {
+    id: "13",
+    slug: "beijing-dumpling-shop-github-ai-skill",
+    title: "A Dumpling Shop in Beijing Just Open-Sourced Its AI Skill on GitHub",
+    summary:
+      "A nearly 20-year-old Beijing dumpling restaurant open-sourced its own AI Skill on GitHub — letting any AI agent answer questions about the menu, queue system, and WiFi password. The owner's take: AI-readable interfaces will become essential infrastructure for every business, just like electricity.",
+    source: "WeChat",
+    sourceUrl: "https://mp.weixin.qq.com/s/lv69EEsxA_gUBLgucgyrKw",
+    publishedAt: "2026-04-13T08:00:00Z",
+    author: "逛逛GitHub",
+    category: "Business",
+    readTime: 4,
+    fireCount: 426,
+    spicy: true,
+    content: [
+      "Jin Gu Yuan is not your average dumpling restaurant. Tucked next to Beijing University of Posts and Telecommunications on Xingtan Road, it has been feeding students, professors, and locals for nearly 20 years. Ask any BUPT alumni and their eyes light up. The dumplings are that good — reportedly ranked number one in Beijing on Dianping, China's equivalent of Yelp.",
+      "The owner runs a WeChat public account with an unusual discipline: exactly four posts per year. No more, no less. Rain or shine. So when a fifth post appeared recently, people noticed immediately. Everyone assumed a new dumpling flavor. They were wrong.",
+      "The owner had spent his extra hours building an AI Skill for his restaurant — and open-sourcing it on GitHub.",
+      "The Skill runs on MCP protocol, the same standard used by enterprise AI systems. It gives any compatible AI agent six capabilities: restaurant location and hours, the queue and ticketing system, delivery service information, how to cook the frozen takeaway dumplings at home, the in-store WiFi password, and current promotions. You ask your AI assistant 'Where is Jin Gu Yuan?' or 'What's the WiFi password?' and it just answers. No app download. No search. No clicking through menus.",
+      "The owner wrote something in his announcement that stopped a lot of people mid-scroll: 'Just like a restaurant needs to rent space, hire staff, buy furniture, and connect to electricity, water, and gas — I believe that AI-readable interfaces will become essential infrastructure for every business. When everyone gets their information through a personal AI assistant, restaurants will need an interface that AI can understand and call upon.'",
+      "He is not a software engineer. His GitHub bio makes that clear: 'Confident about dumplings. Still figuring out the bugs. Please be patient.' There are bugs. He said so himself.",
+      "But that is almost beside the point. While technology giants spend billions debating how AI will reshape industries, a dumpling shop owner in a Beijing hutong quietly built the thing they are all racing toward — a real business with a real AI-native interface, open and readable by any agent that speaks MCP. He did not wait for Meituan or Douyin or any platform to build it for him. He just did it.",
+      "Jin Gu Yuan may be the first restaurant in the world to open-source its own AI Skill. It will not be the last. Go get some dumplings. And ask your AI assistant for the WiFi password while you are there.",
+    ],
+    tool: {
+      name: "MCP Protocol",
+      job: "Open standard for exposing business capabilities as callable tools that any AI agent can discover and use",
+      review:
+        "A dumpling shop owner with no engineering background built a working MCP Skill in his spare time and open-sourced it. That is the most compelling proof-of-concept for MCP's accessibility yet. The protocol's real promise isn't enterprise integrations — it's the long tail of every small business becoming AI-readable without waiting for a platform to do it for them.",
+      url: "https://github.com/JinGuYuan/jinguyuan-dumpling-skill",
+    },
+  },
 ];
 
 export const categories = [

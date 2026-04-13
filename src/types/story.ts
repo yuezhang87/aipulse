@@ -29,4 +29,5 @@ export interface Story {
   imageUrl?: string;
   content: string[];
   tool: StoryTool;
+  spicy?: boolean;
 }
