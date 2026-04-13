@@ -9,6 +9,7 @@ interface Props {
 
 // Module-level ref so Chrome's GC can never collect the utterance mid-speech.
 // A component ref alone isn't enough — Chrome collects it anyway on some builds.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let _utterance: SpeechSynthesisUtterance | null = null;
 
 export default function TldrSection({ summary, content }: Props) {
