@@ -23,6 +23,15 @@ const config: Config = {
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],
       },
+      keyframes: {
+        soundbar: {
+          "0%, 100%": { transform: "scaleY(0.4)" },
+          "50%": { transform: "scaleY(1)" },
+        },
+      },
+      animation: {
+        soundbar: "soundbar 0.8s ease-in-out infinite",
+      },
     },
   },
   plugins: [],

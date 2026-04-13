@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import FireButton from "@/components/FireButton";
+import TldrSection from "@/components/TldrSection";
 import { mockStories } from "@/lib/mock-stories";
 import { categoryColors } from "@/lib/category-colors";
 
@@ -110,8 +111,11 @@ export default async function StoryPage({
 
       {/* Article body */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 space-y-16">
+        {/* TL;DR + Listen */}
+        <TldrSection summary={story.summary} content={story.content} />
+
         {/* Narrative */}
-        <article className="space-y-6">
+        <article className="space-y-6 -mt-6">
           {story.content.map((paragraph, i) => (
             <p
               key={i}
