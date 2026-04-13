@@ -63,8 +63,9 @@ export default function TldrSection({ summary, content }: Props) {
     setError(null);
 
     // --- Step 1: verify the text we'll speak ---
-    const realText = [summary, ...content].join(" ").trim();
+    console.log("[TldrSection] summary prop:", JSON.stringify(summary?.slice(0, 80)) || "(empty)");
     console.log("[TldrSection] content array length:", content.length);
+    const realText = [summary, ...content].join(" ").trim();
     console.log("[TldrSection] joined text length:", realText.length);
     console.log("[TldrSection] text preview:", realText.slice(0, 120) || "(empty)");
 

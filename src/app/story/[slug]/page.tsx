@@ -87,14 +87,9 @@ export default async function StoryPage({
           </div>
 
           {/* Headline */}
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-white leading-tight mb-5">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-white leading-tight mb-8">
             {story.title}
           </h1>
-
-          {/* Summary */}
-          <p className="text-base text-[var(--foreground)] opacity-65 leading-relaxed mb-8 max-w-2xl">
-            {story.summary}
-          </p>
 
           {/* Meta row: source badge + fire */}
           <div className="flex items-center gap-4 flex-wrap">
