@@ -343,6 +343,38 @@ export const mockStories: Story[] = [
     },
   },
   {
+    id: "15",
+    slug: "moltiverse-next-wave-agents",
+    title: "After Manus and OpenClaw, I Think I Found What the Next Wave of Agents Looks Like",
+    summary:
+      "A builder stumbled across an under-the-radar AI agent project with almost no attention — and immediately felt like it was one of those things people would claim they were early on. Instead of stuffing context into one agent, it uses separate workspaces per role, each with its own memory. He's already handed his Twitter and CRM to it.",
+    source: "Reddit",
+    sourceUrl: "https://www.reddit.com/r/moltiverse/s/fKlRbUWjai",
+    publishedAt: "2026-04-14T11:00:00Z",
+    author: "Reddit user",
+    category: "Coding",
+    readTime: 4,
+    fireCount: 156,
+    spicy: true,
+    content: [
+      "I was browsing Reddit when I came across a builder sharing his project. Almost no attention. Maybe a hundred views. But it immediately felt like one of those things people would later claim they were early on.",
+      "Most AI agents today work the same way: keep stuffing context in, burn more tokens, hope it doesn't fall apart before the task is done. This project goes the other way. Separate workspaces per role. Each with its own memory and context window. It feels a lot closer to managing an actual team than prompting a single tool.",
+      "They call it role-holding tasks — and once you see it framed that way, most current agent setups start to feel a bit outdated.",
+      "The project has already published seven templates, and that's where the ambition becomes obvious. The one that stood out immediately was Social Operator: it runs Twitter, LinkedIn, and Reddit end-to-end. Not just generating posts, but actually tracking performance and iterating over time. It feels less like a tool and more like a real person managing the account.",
+      "The rest cover the full stack of what a small team actually needs: Inbox Management, Sales CRM, DevRel — handling inboxes, pipelines, and turning GitHub activity into consistent social media updates.",
+      "I've already handed my Twitter account and CRM to it. DevRel is next.",
+      "The repo has around 1,000 stars right now. Still well under the radar. But I've been in this space long enough to recognize the pattern — the projects that feel different before they blow up usually feel exactly like this.",
+      "Highly recommend checking out the repo before everyone else does.",
+    ],
+    tool: {
+      name: "Moltiverse",
+      job: "Multi-agent framework using separate role-based workspaces with independent memory and context windows",
+      review:
+        "A genuinely different architecture from most agent setups — instead of one overloaded context window, each role gets its own workspace and memory. The published templates (Social Operator, Sales CRM, DevRel) are ambitious and cover the full stack of what a small team needs. Still early, but the pattern feels right.",
+      url: "https://github.com/holaboss-ai/holaboss-ai",
+    },
+  },
+  {
     id: "13",
     slug: "beijing-dumpling-shop-github-ai-skill",
     title: "A Dumpling Shop in Beijing Just Open-Sourced Its AI Skill on GitHub",
