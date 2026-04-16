@@ -130,7 +130,7 @@ export default async function StoryPage({
                 Inspired by
               </p>
               <p className="text-white font-semibold text-base mb-1 leading-snug">
-                {story.source}
+                {story.author ? `${story.author} on ${story.source}` : story.source}
               </p>
               <p className="text-sm text-[var(--foreground)] opacity-55 mb-4">
                 This story was discovered from the original post. All

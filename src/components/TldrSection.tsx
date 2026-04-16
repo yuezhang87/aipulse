@@ -7,25 +7,21 @@ interface Props {
   content: string[];
 }
 
-// Module-level ref so Chrome's GC can never collect the utterance mid-speech.
+// Module-level array so Chrome's GC can never collect utterances mid-speech.
 // A component ref alone isn't enough — Chrome collects it anyway on some builds.
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-let _utterance: SpeechSynthesisUtterance | null = null;
+let _utterances: SpeechSynthesisUtterance[] = [];
 
 export default function TldrSection({ summary, content }: Props) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [supported, setSupported] = useState<boolean | null>(null); // null = not yet checked
   const keepaliveRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const stoppedRef = useRef(false);
 
   // Check support once on mount (must be client-side)
   useEffect(() => {
     const ok = typeof window !== "undefined" && "speechSynthesis" in window;
     setSupported(ok);
-    console.log("[TldrSection] speechSynthesis supported:", ok);
-    if (ok) {
-      console.log("[TldrSection] speechSynthesis object:", window.speechSynthesis);
-    }
 
     return () => {
       // Clean up on unmount (e.g. client-side navigation)
@@ -35,6 +31,7 @@ export default function TldrSection({ summary, content }: Props) {
   }, []);
 
   function stopSpeech() {
+    stoppedRef.current = true;
     if (keepaliveRef.current) {
       clearInterval(keepaliveRef.current);
       keepaliveRef.current = null;
@@ -42,98 +39,78 @@ export default function TldrSection({ summary, content }: Props) {
     if (typeof window !== "undefined" && "speechSynthesis" in window) {
       window.speechSynthesis.cancel();
     }
-    _utterance = null;
+    _utterances = [];
     setIsPlaying(false);
   }
 
   function handleListen() {
-    console.log("[TldrSection] handleListen fired. isPlaying:", isPlaying);
-
     if (!("speechSynthesis" in window)) {
-      console.error("[TldrSection] window.speechSynthesis is not available");
       setError("Not supported on this browser");
       return;
     }
 
     if (isPlaying) {
-      console.log("[TldrSection] Stopping playback");
       stopSpeech();
       return;
     }
 
     setError(null);
+    stoppedRef.current = false;
 
-    // --- Step 1: verify the text we'll speak ---
-    console.log("[TldrSection] summary prop:", JSON.stringify(summary?.slice(0, 80)) || "(empty)");
-    console.log("[TldrSection] content array length:", content.length);
     const realText = [summary, ...content].join(" ").trim();
-    console.log("[TldrSection] joined text length:", realText.length);
-    console.log("[TldrSection] text preview:", realText.slice(0, 120) || "(empty)");
 
     if (!realText) {
-      console.warn("[TldrSection] No text to speak — content is empty");
       setError("No content to read for this story");
       return;
     }
 
-    // --- Step 2: quick hardcoded smoke-test to confirm the API fires at all ---
-    // (Logs "TTS smoke test OK" in the console; remove once confirmed working)
-    const smokeCheck = new SpeechSynthesisUtterance("Audio ready.");
-    smokeCheck.volume = 0; // silent — just verifies the API path works
-    smokeCheck.onstart = () => console.log("[TldrSection] smoke-test utterance started ✓");
-    smokeCheck.onerror = (e) => console.warn("[TldrSection] smoke-test error:", e.error);
-    window.speechSynthesis.speak(smokeCheck);
+    // Split into sentences so Safari never has to handle one long utterance.
+    // Safari cuts off audio mid-way through long strings; short sentences chain fine.
+    const sentences = realText
+      .split(/(?<=[.?!])\s+/)
+      .map((s) => s.trim())
+      .filter(Boolean);
 
-    // --- Step 3: build the real utterance ---
-    const utterance = new SpeechSynthesisUtterance(realText);
-    utterance.rate = 0.95;
-    utterance.pitch = 1;
-    utterance.lang = "en-US";
+    // Build all utterances up front and store at module level to defeat GC.
+    _utterances = sentences.map((sentence) => {
+      const u = new SpeechSynthesisUtterance(sentence);
+      u.rate = 0.95;
+      u.pitch = 1;
+      u.lang = "en-US";
+      return u;
+    });
 
-    utterance.onstart = () => {
-      console.log("[TldrSection] ▶ speech started");
-    };
-    utterance.onend = () => {
-      console.log("[TldrSection] ■ speech ended naturally");
-      stopSpeech();
-    };
-    utterance.onerror = (e) => {
-      console.error("[TldrSection] speech error event:", e.error, e);
-      // 'interrupted' fires when we call cancel() ourselves — not a real error
-      if (e.error !== "interrupted" && e.error !== "canceled") {
-        setError(`Speech error: ${e.error}`);
-      }
-      stopSpeech();
-    };
-    utterance.onpause = () => console.log("[TldrSection] ⏸ speech paused");
-    utterance.onresume = () => console.log("[TldrSection] ▶ speech resumed");
-    utterance.onboundary = (e) =>
-      console.log(`[TldrSection] boundary: ${e.name} at char ${e.charIndex}`);
+    // Chain: each utterance's onend queues the next one.
+    _utterances.forEach((u, i) => {
+      u.onend = () => {
+        if (stoppedRef.current) return;
+        if (i + 1 < _utterances.length) {
+          window.speechSynthesis.speak(_utterances[i + 1]);
+        } else {
+          // All sentences finished
+          stopSpeech();
+        }
+      };
+      u.onerror = (e) => {
+        // 'interrupted' / 'canceled' fire when we call cancel() ourselves — not real errors
+        if (e.error !== "interrupted" && e.error !== "canceled") {
+          setError(`Speech error: ${e.error}`);
+        }
+        stopSpeech();
+      };
+    });
 
-    // Assign to module-level var to defeat Chrome's GC (component refs aren't enough)
-    _utterance = utterance;
-
-    console.log("[TldrSection] calling speechSynthesis.speak()");
-    window.speechSynthesis.speak(utterance);
-
-    // Log state immediately after speak() — Chrome queues it asynchronously
-    setTimeout(() => {
-      console.log("[TldrSection] speaking:", window.speechSynthesis.speaking);
-      console.log("[TldrSection] pending:", window.speechSynthesis.pending);
-    }, 200);
-
+    // Speak only the first sentence; the rest are queued via onend chaining.
+    window.speechSynthesis.speak(_utterances[0]);
     setIsPlaying(true);
 
     // --- Chrome keepalive workaround ---
     // Chrome pauses long utterances after ~14 s. pause()+resume() every 10 s
-    // forces it to keep going. Without this, anything > ~200 words silently stops.
+    // forces it to keep going. Sentence chaining makes this less critical but
+    // keep it as a safety net for Chrome.
     keepaliveRef.current = setInterval(() => {
-      if (!window.speechSynthesis.speaking) {
-        console.warn("[TldrSection] keepalive: speaking is false — stopping timer");
-        stopSpeech();
-        return;
-      }
-      console.log("[TldrSection] keepalive tick — pausing then resuming");
+      if (stoppedRef.current) return;
+      if (!window.speechSynthesis.speaking) return;
       window.speechSynthesis.pause();
       window.speechSynthesis.resume();
     }, 10_000);
