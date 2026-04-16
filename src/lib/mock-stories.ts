@@ -463,6 +463,7 @@ export const mockStories: Story[] = [
     id: "17",
     slug: "ai-investment-backtest-comparison",
     title: "I Asked 3 AIs to Backtest My Investment Strategy. The Results Were Eye-Opening.",
+    imageUrl: "https://miro.medium.com/v2/resize:fit:1400/format:webp/1*_QowvitzroFuyHCFbGjuNw.png",
     summary:
       "Sze Wong gave Gemini, ChatGPT, and Claude the exact same investment backtest challenge — 3 strategies, 30 years, monthly contributions. She expected small differences. Instead she got three completely different personalities, workflows, and results.",
     source: "Medium",
@@ -492,6 +493,7 @@ export const mockStories: Story[] = [
     id: "18",
     slug: "ai-novel-writing-editorial-lens",
     title: "I Wrote My Entire Novel Myself. But AI Was on Every Page.",
+    imageUrl: "https://miro.medium.com/v2/resize:fit:1400/format:webp/1*j_Q4QowK9tZ9no_TbqHkWg.jpeg",
     summary:
       "Michael Iantosca, a 45-year technical writing veteran, wrote every word of his novel himself. But he used AI throughout as an editorial lens — catching plot holes he'd gone blind to, flagging sagging middles, testing whether scenes earned their emotional payoff. His verdict: used carelessly it's a crutch. Used well, it's a lens.",
     source: "Medium",
@@ -522,6 +524,7 @@ export const mockStories: Story[] = [
     id: "19",
     slug: "ai-novel-writing-experiment-failure",
     title: "I Tried to Get AI to Write My Novel For Me. Here's Where It All Fell Apart.",
+    imageUrl: "https://miro.medium.com/v2/resize:fit:1400/format:webp/1*v_VVv0tuE-zW3ixO-ubu6A.png",
     summary:
       "After a long workday, Amy Ma had a thought: what if AI could write a novel for her? She signed up for a Chinese novel writing competition, registered on Kindle Direct Publishing, and started prompting. What followed was a masterclass in exactly what AI cannot do — and what only a human writer can.",
     source: "Medium",
