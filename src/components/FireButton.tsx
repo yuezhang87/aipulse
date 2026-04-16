@@ -17,6 +17,43 @@ function getUserId(): string {
   return id;
 }
 
+async function incrementFireCount(storyId: string, initialCount: number) {
+  const { data: existing } = await supabase
+    .from("story_fires")
+    .select("fire_count")
+    .eq("story_id", storyId)
+    .single();
+
+  if (existing) {
+    const { error } = await supabase
+      .from("story_fires")
+      .update({ fire_count: existing.fire_count + 1 })
+      .eq("story_id", storyId);
+    if (error) throw error;
+  } else {
+    const { error } = await supabase
+      .from("story_fires")
+      .insert({ story_id: storyId, fire_count: initialCount + 1 });
+    if (error) throw error;
+  }
+}
+
+async function decrementFireCount(storyId: string) {
+  const { data: existing } = await supabase
+    .from("story_fires")
+    .select("fire_count")
+    .eq("story_id", storyId)
+    .single();
+
+  if (existing) {
+    const { error } = await supabase
+      .from("story_fires")
+      .update({ fire_count: Math.max(0, existing.fire_count - 1) })
+      .eq("story_id", storyId);
+    if (error) throw error;
+  }
+}
+
 export default function FireButton({ storyId, initialCount }: Props) {
   const [fires, setFires] = useState(initialCount);
   const [fired, setFired] = useState(false);
@@ -45,8 +82,8 @@ export default function FireButton({ storyId, initialCount }: Props) {
           setFires(countResult.data.fire_count);
         }
         setFired(!!firedResult.data);
-      } catch {
-        // Fall back to initialCount already set in state
+      } catch (e) {
+        console.error(e);
       } finally {
         setLoading(false);
       }
@@ -65,21 +102,24 @@ export default function FireButton({ storyId, initialCount }: Props) {
 
     try {
       if (nowFired) {
-        await Promise.all([
-          supabase.from("user_fires").insert({ user_id: userId, story_id: storyId }),
-          supabase.rpc("increment_fire_count", { p_story_id: storyId, p_initial: initialCount }),
-        ]);
+        const { error: insertError } = await supabase
+          .from("user_fires")
+          .insert({ user_id: userId, story_id: storyId });
+        if (insertError) throw insertError;
+
+        await incrementFireCount(storyId, initialCount);
       } else {
-        await Promise.all([
-          supabase
-            .from("user_fires")
-            .delete()
-            .eq("user_id", userId)
-            .eq("story_id", storyId),
-          supabase.rpc("decrement_fire_count", { p_story_id: storyId }),
-        ]);
+        const { error: deleteError } = await supabase
+          .from("user_fires")
+          .delete()
+          .eq("user_id", userId)
+          .eq("story_id", storyId);
+        if (deleteError) throw deleteError;
+
+        await decrementFireCount(storyId);
       }
-    } catch {
+    } catch (e) {
+      console.error(e);
       // Revert optimistic update on failure
       setFired(!nowFired);
       setFires((n) => (nowFired ? n - 1 : n + 1));
