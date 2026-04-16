@@ -9,6 +9,7 @@ import SearchBar from "@/components/SearchBar";
 export default function StoriesFeed() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [search, setSearch] = useState("");
+  const [spicyOnly, setSpicyOnly] = useState(false);
 
   const filtered = useMemo(() => {
     return mockStories.filter((s) => {
@@ -18,9 +19,10 @@ export default function StoriesFeed() {
         s.title.toLowerCase().includes(search.toLowerCase()) ||
         s.summary.toLowerCase().includes(search.toLowerCase()) ||
         s.source.toLowerCase().includes(search.toLowerCase());
-      return matchCat && matchSearch;
+      const matchSpicy = !spicyOnly || s.spicy === true;
+      return matchCat && matchSearch && matchSpicy;
     });
-  }, [activeCategory, search]);
+  }, [activeCategory, search, spicyOnly]);
 
   const featured = filtered.slice(0, 2);
   const rest = filtered.slice(2);
@@ -34,6 +36,8 @@ export default function StoriesFeed() {
           categories={categories}
           active={activeCategory}
           onChange={setActiveCategory}
+          spicyOnly={spicyOnly}
+          onSpicyToggle={() => setSpicyOnly((v) => !v)}
         />
       </div>
 
