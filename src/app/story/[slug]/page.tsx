@@ -99,7 +99,7 @@ export default async function StoryPage({
                 {story.source}
               </span>
             </div>
-            <FireButton initialCount={story.fireCount} />
+            <FireButton storyId={story.slug} initialCount={story.fireCount} />
           </div>
         </div>
       </div>
