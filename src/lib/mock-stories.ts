@@ -488,6 +488,66 @@ export const mockStories: Story[] = [
       url: "https://claude.ai",
     },
   },
+  {
+    id: "18",
+    slug: "ai-novel-writing-editorial-lens",
+    title: "I Wrote My Entire Novel Myself. But AI Was on Every Page.",
+    summary:
+      "Michael Iantosca, a 45-year technical writing veteran, wrote every word of his novel himself. But he used AI throughout as an editorial lens — catching plot holes he'd gone blind to, flagging sagging middles, testing whether scenes earned their emotional payoff. His verdict: used carelessly it's a crutch. Used well, it's a lens.",
+    source: "Medium",
+    sourceUrl: "https://medium.com/@nc_mike/how-i-used-ai-while-writing-my-novel-f0ec33d469c9",
+    publishedAt: "2026-04-16T09:00:00Z",
+    author: "Michael Iantosca",
+    category: "Writing",
+    readTime: 5,
+    fireCount: 234,
+    spicy: false,
+    content: [
+      "Michael Iantosca is a career technical writer with 45 years of experience. He wrote his novel entirely himself — every scene, every line of dialogue, every emotional turn. AI did not generate a single chapter. What it did was something more interesting.",
+      "The problem with writing a long novel is that you eventually go blind to it. After months inside the same story, you stop seeing the flaws. Pacing problems become invisible. Plot inconsistencies feel normal. Emotional payoffs that haven't been earned slip past unnoticed. Iantosca used AI as the outside eye he couldn't give himself.",
+      "He built a custom AI editor persona and put it to work on the structural layer first. It surfaced plot inconsistencies and continuity errors across drafts. It checked whether timelines made sense. It flagged sagging middles and endings that resolved too quickly. In several cases it identified scenes that rushed emotional payoffs — moments where he'd written the outcome without doing the groundwork to earn it.",
+      "At the sentence level, it worked differently. It suggested stronger metaphors when existing ones felt flat. It flagged clichés and overused phrasing. It helped balance showing and telling, pointing out where sensory detail could be strengthened or where explanation could simply be cut.",
+      "When beta readers returned feedback, he used AI there too — not to automatically apply suggestions, but to evaluate them. Sometimes it confirmed the reader's instinct and helped him implement the fix cleanly. Other times it articulated why his original draft worked better. In those moments AI didn't replace his judgment. It steadied it.",
+      "His conclusion after the whole process: AI can absolutely help you become a better writer — but only if you use it thoughtfully and deliberately. Used carelessly, it becomes a crutch. Used well, it becomes a lens.",
+    ],
+    tool: {
+      name: "Claude",
+      job: "Editorial lens for structural and line-level analysis throughout a novel revision process",
+      review:
+        "Effective as an outside eye for long-form work where the writer has gone blind to their own material. Strongest at structural diagnosis — flagging plot inconsistencies, unearned emotional payoffs, and sagging middles. At the sentence level, useful for metaphor and cliché feedback. The key distinction: it works as a lens on the writer's own judgment, not a replacement for it.",
+      url: "https://claude.ai",
+    },
+  },
+  {
+    id: "19",
+    slug: "ai-novel-writing-experiment-failure",
+    title: "I Tried to Get AI to Write My Novel For Me. Here's Where It All Fell Apart.",
+    summary:
+      "After a long workday, Amy Ma had a thought: what if AI could write a novel for her? She signed up for a Chinese novel writing competition, registered on Kindle Direct Publishing, and started prompting. What followed was a masterclass in exactly what AI cannot do — and what only a human writer can.",
+    source: "Medium",
+    sourceUrl: "https://medium.com/data-science-collective/what-i-learned-about-ai-by-forcing-it-to-write-a-novel-efe7e67b4fa1",
+    publishedAt: "2026-04-16T10:00:00Z",
+    author: "Amy Ma",
+    category: "Writing",
+    readTime: 5,
+    fireCount: 198,
+    spicy: false,
+    content: [
+      "It started with a simple idea. Amy Ma, a data scientist who knew her way around AI, had a thought one evening after work: what if she could get AI to write a novel for her? Not a masterpiece. Just something simple enough to find readers. She signed up for a Chinese novel writing competition and registered on Kindle Direct Publishing. She was confident. She knew how to work with AI.",
+      "She started with what felt like a reasonable prompt: write a New York Times bestselling novel, chapter by chapter, rich descriptions, real characters. AI's first response wasn't a draft. It was a questionnaire. That was the first surprise.",
+      "When the chapters finally came, they looked impressive on the surface. Rich in description, dramatic in tone. But the story was scattered. A driver finds a woman in the snow. Then a flashback. Then a nurse treating a woman with no memory. The scenes didn't connect. It felt like someone stringing together movie trailers without the film in between.",
+      "The deeper she went, the worse it got. AI couldn't build tension or layer story beats across chapters. It could only focus on one idea at a time. By chapter three a mysterious captor appeared — but without any of the setup that would make readers care. She tried feeding it earlier chapters as a PDF before each new one, hoping it would stay on track. It didn't. The chapters got shorter, flatter, more disconnected.",
+      "What she eventually understood is that great fiction isn't about what happens — it's about how plot builds emotion over time, how character changes, how readers feel different at the end than they did at the start. AI generates scenes. It doesn't build people. It loses track of what it's trying to construct, forgets character growth, can't sustain emotional momentum across a long form.",
+      "Her conclusion: AI absolutely can help you write a novel — but not by being the writer itself. It can outline, brainstorm, edit, and diagnose. It cannot feel the story from the inside. That part is still entirely yours.",
+    ],
+    tool: {
+      name: "ChatGPT",
+      job: "Generating novel chapters from plain-language prompts across a long-form writing experiment",
+      review:
+        "Produces impressive-looking chapters individually but cannot sustain narrative coherence, character development, or emotional momentum across a long form. Scenes disconnect, character arcs get lost, and tension dissipates chapter by chapter. The real use case is outline generation, brainstorming, and editing — not acting as the writer itself.",
+      url: "https://chatgpt.com",
+    },
+  },
 ];
 
 export const categories = [
