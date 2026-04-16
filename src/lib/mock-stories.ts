@@ -15,7 +15,14 @@ export const mockStories: Story[] = [
     readTime: 6,
     fireCount: 312,
     imageUrl: "https://miro.medium.com/1*zVkc5iNVMQQIApQS_OKAAA.jpeg",
-    content: [],
+    content: [
+      "It was 3am. Dr. Josh Tamayo-Sarver was in the middle of a chaotic ER night shift when he got a case that would change how he thought about AI in medicine.",
+      "A 96-year-old woman with dementia was struggling to breathe. The cause was pulmonary edema — fluid trapped in her lungs. The fix was clear: drain the fluid, stabilise her breathing. But her three adult children, all in their seventies, were convinced she just needed IV fluids for dehydration. They asked for it. Over and over. For an hour straight. The problem? IV fluids would have made her condition dramatically worse. More fluid into already-flooded lungs could have killed her.",
+      "Dr. Tamayo-Sarver tried explaining it every way he could. Simple terms. Medical terms. Analogies. Nothing worked. The family was panicked, grieving, and stuck on an idea. Other patients needed urgent attention. The situation was spiralling.",
+      "So he did something unexpected. He walked to his computer, opened ChatGPT-4, and typed a prompt asking it to explain — in warm, simple language for a non-medical family — why giving IV fluids to someone with fluid in their lungs would cause harm, not help. The response came back in seconds. He printed it out and read it to the family.",
+      "They went quiet. Then calm. The son who had been most insistent simply nodded. They stepped back and let the team work. For the rest of the shift, every time the question came up again, the nurse read from the same printed page. It worked every time.",
+      "Dr. Tamayo-Sarver has used ChatGPT this way ever since. Not for diagnosis — he is clear that AI is unreliable there. But for communication. The ER is full of moments where a frightened family needs something explained that a doctor simply does not have time to explain well. ChatGPT generates the explanation. The doctor delivers the care."
+    ],
     tool: {
       name: "ChatGPT",
       job: "Explaining complex diagnoses to patients and families in plain language during ER shifts",
@@ -38,7 +45,13 @@ export const mockStories: Story[] = [
     readTime: 5,
     fireCount: 287,
     imageUrl: "https://miro.medium.com/1*VMAxSVdfT9DuwZl3QFWRYg.png",
-    content: [],
+    content: [
+      "The engineer had a problem: he needed a custom mechanical part. A bracket with specific dimensions, specific load requirements, and no room for error. The normal solution would be CAD software, engineering training, or paying someone who had both. He had neither.",
+      "Instead, he opened Claude and started describing the part in plain English. Not design specs — just a clear description of what the part needed to do, what forces it would face, and what it needed to connect to. Claude responded with something unexpected: a precise geometric breakdown of every surface, wall thickness, hole placement, and angle he would need. No file. No drawing. Just a description clear enough to act on.",
+      "He took that description into a beginner-friendly 3D modelling tool and started building. When he hit a problem — a wall too thin, a hole in the wrong place — he came back to Claude and described exactly what was going wrong. Claude diagnosed it from the description and suggested a specific fix. Back to the modelling tool. Adjust. Print a test piece. Return with new questions.",
+      "The final part worked on the first real print. He has since used the same process for four more components across two different projects. The workflow is always the same: describe the problem to Claude in plain English, get a precise geometric response, model it, test it, iterate.",
+      "What he discovered is that Claude does not replace engineering knowledge — it makes that knowledge accessible to someone who does not have it. The conversation becomes the design process. The iteration becomes the engineering. And the barrier to entry drops from years of training to the ability to describe clearly what you need.",
+    ],
     tool: {
       name: "Claude",
       job: "Translating plain-language geometry descriptions into functional, 3D-printable part designs",
@@ -61,7 +74,13 @@ export const mockStories: Story[] = [
     readTime: 7,
     fireCount: 341,
     imageUrl: "https://i.ytimg.com/vi/VXgusdDbsQE/maxresdefault.jpg",
-    content: [],
+    content: [
+      "Two years ago, analysing a thousand customer reviews cost three thousand dollars and took days. Today, the same analysis takes minutes and costs three dollars. That is not a gradual improvement. That is a collapse — and most solo founders have not fully figured out what to do with it yet.",
+      "The CEO behind this story spent the last year systematically replacing team functions with AI workflows. He did not do it all at once. He picked one area, built a workflow, proved it worked, then moved to the next. He started with demand generation. Then financial analysis. Then marketing. Then the administrative layer that used to eat entire afternoons.",
+      "The most striking example is his financial operations. He used to employ an analyst to process raw material costs and recommend price adjustments — a two-day turnaround every time input costs changed. Now he feeds the raw data directly into ChatGPT. Analysis comes back in minutes. He also pipes his QuickBooks and point-of-sale data into Google NotebookLM, which synthesises everything into a weekly audio briefing for his branch managers. The AI became his CFO.",
+      "The mental shift that made this possible was simple: stop thinking about AI as a chatbot and start thinking about it as infrastructure. Every recurring task that takes the same shape every week is a candidate for automation. The question is not whether AI can do it. The question is whether you have described it precisely enough.",
+      "His advice to solo founders: do not try to build the whole machine at once. Pick one area — just one — and find a single recurring task to automate this week. Get it working. Then pick the next. The founders who compound these small wins are the ones who will look up in a year and realise they are running what used to require a full team.",
+    ],
     tool: {
       name: "ChatGPT",
       job: "Acting as CFO, analyzing customer reviews, and handling business operations for a solo founder",
