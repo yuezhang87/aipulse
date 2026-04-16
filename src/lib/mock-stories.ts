@@ -40,7 +40,7 @@ export const mockStories: Story[] = [
     source: "Medium",
     sourceUrl: "https://medium.com/towards-artificial-intelligence/i-taught-claude-to-design-3d-printable-parts-heres-how-675f644af78a",
     publishedAt: "2026-04-11T08:30:00Z",
-    author: "Towards AI",
+    author: "Nicolas Chourrout",
     category: "Design",
     readTime: 5,
     fireCount: 287,
