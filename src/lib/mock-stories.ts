@@ -459,6 +459,35 @@ export const mockStories: Story[] = [
       url: "https://github.com/JinGuYuan/jinguyuan-dumpling-skill",
     },
   },
+  {
+    id: "17",
+    slug: "ai-investment-backtest-comparison",
+    title: "I Asked 3 AIs to Backtest My Investment Strategy. The Results Were Eye-Opening.",
+    summary:
+      "Sze Wong gave Gemini, ChatGPT, and Claude the exact same investment backtest challenge — 3 strategies, 30 years, monthly contributions. She expected small differences. Instead she got three completely different personalities, workflows, and results.",
+    source: "Medium",
+    sourceUrl: "https://szewong.medium.com/i-asked-gemini-chatgpt-and-claude-to-backtest-three-simple-investment-strategies-4e43566254aa",
+    publishedAt: "2026-04-16T09:00:00Z",
+    author: "Sze Wong",
+    category: "Finance",
+    readTime: 5,
+    fireCount: 278,
+    content: [
+      "Most people compare portfolios. Sze Wong decided to compare AIs.",
+      "She gave Google Gemini, ChatGPT, and Claude the exact same task: backtest three investment strategies over 30 years with monthly contributions. One fund, two funds, four funds. Same question. Same data. Three completely different responses.",
+      "Gemini went first. It came back with beautiful charts, automatic CAGR tables, a Portfolio Growth Simulator, and instant answers. It looked incredible. The problem: it never explained where any of the numbers came from. No citations, no assumptions, no acknowledgment that many of these funds didn't even exist 30 years ago. Gemini simply acted like it had the data and presented results with extreme polish and confidence.",
+      "ChatGPT took a different approach. Instead of just answering, it thought out loud. It flagged that some funds didn't exist for the full 30-year period. It explained its assumptions before calculating. It showed its methodology. Less polished than Gemini — but far more honest about what it knew and didn't know.",
+      "Claude went furthest. It didn't just flag the data problem — it tried to solve it. It pivoted, pulled historical performance numbers manually, and built a 30-year synthetic backtest from scratch. The result: the two-fund portfolio came out ahead with a final value of $738,902 and a 4.82% CAGR, beating both the LifeStrategy Growth fund and the four-fund portfolio.",
+      "The lesson wasn't really about which portfolio wins. It was about which AI you can actually trust for financial research. Gemini for beautiful presentations. ChatGPT for transparent thinking. Claude for actual analysis and deliverables. Same question. Three completely different tools.",
+    ],
+    tool: {
+      name: "Claude",
+      job: "Running a 30-year synthetic investment backtest by sourcing historical data and building the analysis from scratch",
+      review:
+        "When Gemini presented confident but uncited results and ChatGPT flagged the data gap without solving it, Claude went furthest — pivoting to build a synthetic backtest manually. For financial analysis that requires actual methodology rather than polished output, Claude proved the most trustworthy of the three.",
+      url: "https://claude.ai",
+    },
+  },
 ];
 
 export const categories = [
