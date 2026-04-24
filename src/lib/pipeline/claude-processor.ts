@@ -1,5 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
-import { RedditPost } from './reddit-scraper';
+import { PipelinePost } from './types';
 import { Category } from '@/types/story';
 
 export interface ProcessedStory {
@@ -26,8 +26,8 @@ const client = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
-export async function processRedditPost(post: RedditPost): Promise<ProcessResult> {
-  const userPrompt = `Score this Reddit post 1-10 on: (1) Is it a personal story not advice? (2) Does it mention a specific AI tool? (3) Is there a concrete result? (4) Is it surprising or insightful?
+export async function processPost(post: PipelinePost): Promise<ProcessResult> {
+  const userPrompt = `Score this post 1-10 on: (1) Is it a personal story not advice? (2) Does it mention a specific AI tool? (3) Is there a concrete result? (4) Is it surprising or insightful?
 
 If score is 7 or higher, rewrite it as an aiPulse story with: engaging opening, easy to understand, focused on HOW they did it, 4-6 paragraphs.
 
@@ -40,9 +40,9 @@ If score is below 7, return { score } only.
 ---
 Title: ${post.title}
 Author: ${post.author}
-Subreddit: r/${post.subreddit}
+Source: ${post.source}
 Score: ${post.score}
-URL: https://www.reddit.com/r/${post.subreddit}
+URL: ${post.url}
 
 ${post.content}`;
 
@@ -56,16 +56,12 @@ ${post.content}`;
   const text = message.content[0].type === 'text' ? message.content[0].text : '';
 
   const jsonMatch = text.match(/\{[\s\S]*\}/);
-  if (!jsonMatch) {
-    return { score: 0, story: null };
-  }
+  if (!jsonMatch) return { score: 0, story: null };
 
   const parsed = JSON.parse(jsonMatch[0]);
   const score: number = parsed.score ?? 0;
 
-  if (score < 7 || !parsed.title) {
-    return { score, story: null };
-  }
+  if (score < 7 || !parsed.title) return { score, story: null };
 
   const story: ProcessedStory = {
     score,
@@ -78,7 +74,7 @@ ${post.content}`;
     tool: parsed.tool ?? '',
     toolUrl: parsed.toolUrl ?? '',
     spicy: parsed.spicy ?? false,
-    sourceUrl: parsed.sourceUrl ?? `https://www.reddit.com/r/${post.subreddit}`,
+    sourceUrl: parsed.sourceUrl ?? post.url,
   };
 
   return { score, story };

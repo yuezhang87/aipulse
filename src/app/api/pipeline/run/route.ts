@@ -1,9 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import { fetchRedditPosts } from '@/lib/pipeline/reddit-scraper';
-import { processRedditPost } from '@/lib/pipeline/claude-processor';
+import { hnSource } from '@/lib/pipeline/hn-scraper';
+// import { redditSource } from '@/lib/pipeline/reddit-scraper';
+import { processPost } from '@/lib/pipeline/claude-processor';
+import { PipelineSource } from '@/lib/pipeline/types';
 
 const PIPELINE_SECRET = 'aipulse-pipeline-2026';
+
+const SOURCES: PipelineSource[] = [
+  hnSource,
+  // redditSource,
+];
 
 function getSupabase() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -18,47 +25,55 @@ export async function POST(req: NextRequest) {
   }
 
   const supabase = getSupabase();
-
-  const posts = await fetchRedditPosts();
   let processed = 0;
   let approved = 0;
   let saved = 0;
 
-  for (const post of posts) {
-    processed++;
-
-    let result;
+  for (const source of SOURCES) {
+    let posts;
     try {
-      result = await processRedditPost(post);
+      posts = await source.fetchPosts();
     } catch (err) {
-      console.error(`Failed to process post "${post.title}":`, err);
+      console.error(`[${source.name}] Failed to fetch posts:`, err);
       continue;
     }
 
-    if (!result.story) continue;
-    approved++;
+    for (const post of posts) {
+      processed++;
 
-    const story = result.story;
-    const { error } = await supabase.from('pending_stories').insert({
-      title: story.title,
-      slug: story.slug,
-      summary: story.summary,
-      content: story.content,
-      author: story.author,
-      category: story.category,
-      tool: story.tool,
-      tool_url: story.toolUrl,
-      spicy: story.spicy,
-      source_url: story.sourceUrl,
-      source: `r/${post.subreddit}`,
-      score: story.score,
-      status: 'pending',
-    });
+      let result;
+      try {
+        result = await processPost(post);
+      } catch (err) {
+        console.error(`[${source.name}] Failed to process "${post.title}":`, err);
+        continue;
+      }
 
-    if (error) {
-      console.error(`Failed to save story "${story.title}":`, error.message);
-    } else {
-      saved++;
+      if (!result.story) continue;
+      approved++;
+
+      const story = result.story;
+      const { error } = await supabase.from('pending_stories').insert({
+        title: story.title,
+        slug: story.slug,
+        summary: story.summary,
+        content: story.content,
+        author: story.author,
+        category: story.category,
+        tool: story.tool,
+        tool_url: story.toolUrl,
+        spicy: story.spicy,
+        source_url: story.sourceUrl,
+        source: post.source,
+        score: story.score,
+        status: 'pending',
+      });
+
+      if (error) {
+        console.error(`[${source.name}] Failed to save "${story.title}":`, error.message);
+      } else {
+        saved++;
+      }
     }
   }
 
