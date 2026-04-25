@@ -1,8 +1,14 @@
 import Navbar from "@/components/Navbar";
 import StoriesFeed from "@/components/StoriesFeed";
 import TrendingSidebar from "@/components/TrendingSidebar";
+import { getApprovedStories } from "@/lib/db-stories";
+import { mockStories } from "@/lib/mock-stories";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const dbStories = await getApprovedStories();
+  const stories = dbStories.length > 0 ? dbStories : mockStories;
   return (
     <div className="min-h-screen bg-navy">
       <Navbar />
@@ -32,7 +38,7 @@ export default function Home() {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Feed */}
           <main className="flex-1 min-w-0">
-            <StoriesFeed />
+            <StoriesFeed stories={stories} />
           </main>
 
           {/* Sidebar */}

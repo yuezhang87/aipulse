@@ -1,18 +1,19 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { mockStories, categories } from "@/lib/mock-stories";
+import { categories } from "@/lib/mock-stories";
+import { Story } from "@/types/story";
 import StoryCard from "@/components/StoryCard";
 import CategoryFilter from "@/components/CategoryFilter";
 import SearchBar from "@/components/SearchBar";
 
-export default function StoriesFeed() {
+export default function StoriesFeed({ stories }: { stories: Story[] }) {
   const [activeCategory, setActiveCategory] = useState("All");
   const [search, setSearch] = useState("");
   const [spicyOnly, setSpicyOnly] = useState(false);
 
   const filtered = useMemo(() => {
-    return mockStories.filter((s) => {
+    return stories.filter((s) => {
       const matchCat = activeCategory === "All" || s.category === activeCategory;
       const matchSearch =
         !search ||

@@ -27,21 +27,28 @@ const client = new Anthropic({
 });
 
 export async function processPost(post: PipelinePost): Promise<ProcessResult> {
-  const userPrompt = `Score this post 1-10 on: (1) Is it a personal story not advice? (2) Does it mention a specific AI tool? (3) Is there a concrete result? (4) Is it surprising or insightful?
+  const userPrompt = `Score this post 1-10 on these four criteria:
+1. Is it a personal story, not generic advice? (0-3 pts)
+2. Does it mention a specific AI tool by name? (0-2 pts)
+3. Is there a concrete, measurable result? (0-3 pts)
+4. Is it surprising, contrarian, or unusually insightful? (0-2 pts)
 
-If score is 7 or higher, rewrite it as an aiPulse story with: engaging opening, easy to understand, focused on HOW they did it, 4-6 paragraphs.
+Add the points for a total score 1-10. Be strict — most posts should score 5-7. Only exceptional posts score 9-10.
+
+If score >= 7, rewrite it as an aiPulse story: engaging opening, easy to understand, focused on HOW they did it, 4-6 paragraphs.
 
 Return JSON only: { score, title, slug, summary, content: string[], author, category, tool, toolUrl, spicy: boolean, sourceUrl }
 
 Categories: Health, Finance, Coding, Design, Writing, Research, Business.
+spicy: true if the take is controversial or challenges conventional wisdom.
 
-If score is below 7, return { score } only.
+If score < 7, return { score } only.
 
 ---
 Title: ${post.title}
 Author: ${post.author}
 Source: ${post.source}
-Score: ${post.score}
+HN upvotes: ${post.score}
 URL: ${post.url}
 
 ${post.content}`;

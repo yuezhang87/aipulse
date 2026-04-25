@@ -4,7 +4,10 @@ import Navbar from "@/components/Navbar";
 import FireButton from "@/components/FireButton";
 import TldrSection from "@/components/TldrSection";
 import { mockStories } from "@/lib/mock-stories";
+import { getStoryBySlug } from "@/lib/db-stories";
 import { categoryColors } from "@/lib/category-colors";
+
+export const dynamic = "force-dynamic";
 
 function timeAgo(dateStr: string): string {
   const diff = Date.now() - new Date(dateStr).getTime();
@@ -15,17 +18,13 @@ function timeAgo(dateStr: string): string {
   return `${days}d ago`;
 }
 
-export function generateStaticParams() {
-  return mockStories.map((s) => ({ slug: s.slug }));
-}
-
 export default async function StoryPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const story = mockStories.find((s) => s.slug === slug);
+  const story = mockStories.find((s) => s.slug === slug) ?? await getStoryBySlug(slug);
   if (!story) notFound();
 
   return (
@@ -163,52 +162,58 @@ export default async function StoryPage({
         </div>
 
         {/* Tool review */}
-        <div className="rounded-2xl border border-[var(--border)] bg-[var(--card-bg)] overflow-hidden">
-          <div className="px-6 py-4 border-b border-[var(--border)] flex items-center gap-2">
-            <span className="text-base">🛠</span>
-            <span className="text-xs font-semibold text-[var(--foreground)] opacity-50 uppercase tracking-widest">
-              Tool in this story
-            </span>
-          </div>
-          <div className="px-6 py-6">
-            <div className="flex items-start justify-between gap-6 flex-wrap">
+        {story.tool.name && (
+          <div className="rounded-2xl border border-[var(--border)] bg-[var(--card-bg)] overflow-hidden">
+            <div className="px-6 py-4 border-b border-[var(--border)] flex items-center gap-2">
+              <span className="text-base">🛠</span>
+              <span className="text-xs font-semibold text-[var(--foreground)] opacity-50 uppercase tracking-widest">
+                Tool in this story
+              </span>
+            </div>
+            <div className="px-6 py-6">
               <div className="flex-1 min-w-0">
                 <h3 className="text-xl font-bold text-white mb-1">
                   {story.tool.name}
                 </h3>
-                <p className="text-sm text-[#a29ce8] font-medium mb-4">
-                  {story.tool.job}
-                </p>
-                <p className="text-sm text-[var(--foreground)] opacity-70 leading-relaxed">
-                  {story.tool.review}
-                </p>
+                {story.tool.job && (
+                  <p className="text-sm text-[#a29ce8] font-medium mb-4">
+                    {story.tool.job}
+                  </p>
+                )}
+                {story.tool.review && (
+                  <p className="text-sm text-[var(--foreground)] opacity-70 leading-relaxed">
+                    {story.tool.review}
+                  </p>
+                )}
               </div>
-            </div>
-            <div className="mt-6">
-              <a
-                href={story.tool.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#7F77DD] hover:bg-[#9590e8] text-white text-sm font-semibold transition-colors"
-              >
-                Visit {story.tool.name}
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                  />
-                </svg>
-              </a>
+              {story.tool.url && (
+                <div className="mt-6">
+                  <a
+                    href={story.tool.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#7F77DD] hover:bg-[#9590e8] text-white text-sm font-semibold transition-colors"
+                  >
+                    Visit {story.tool.name}
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                      />
+                    </svg>
+                  </a>
+                </div>
+              )}
             </div>
           </div>
-        </div>
+        )}
 
         {/* Back to feed link */}
         <div className="pt-4 border-t border-[var(--border)]">
