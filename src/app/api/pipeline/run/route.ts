@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { hnSource } from '@/lib/pipeline/hn-scraper';
-import { redditSource } from '@/lib/pipeline/reddit-scraper';
+import { devtoSource } from '@/lib/pipeline/devto-scraper';
 import { processPost } from '@/lib/pipeline/claude-processor';
 import { PipelineSource } from '@/lib/pipeline/types';
 
@@ -9,7 +9,7 @@ const PIPELINE_SECRET = 'aipulse-pipeline-2026';
 
 const SOURCES: PipelineSource[] = [
   hnSource,
-  redditSource,
+  devtoSource,
 ];
 
 function getSupabase() {
