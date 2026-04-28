@@ -1,60 +1,79 @@
 import { PipelinePost, PipelineSource } from './types';
 
 const TAGS = ['ai', 'chatgpt', 'claude', 'llm', 'machinelearning'];
+const MIN_REACTIONS = 30;
+const MIN_BODY_LENGTH = 500;
 
-interface DevtoArticle {
+interface DevtoListItem {
   id: number;
   title: string;
   url: string;
-  body_markdown: string;
   positive_reactions_count: number;
-  user: {
-    name: string;
-  };
+  user: { name: string };
 }
 
-async function fetchByTag(tag: string): Promise<DevtoArticle[]> {
+interface DevtoArticle extends DevtoListItem {
+  body_markdown: string;
+}
+
+async function fetchByTag(tag: string): Promise<DevtoListItem[]> {
   const res = await fetch(
     `https://dev.to/api/articles?tag=${tag}&top=7&per_page=30`,
     { headers: { 'User-Agent': 'aiPulse/1.0' } },
   );
-
   if (!res.ok) {
-    console.error(`Dev.to fetch failed for tag "${tag}": ${res.status}`);
+    console.error(`Dev.to listing failed for tag "${tag}": ${res.status}`);
     return [];
   }
+  return res.json();
+}
 
+async function fetchFullArticle(id: number): Promise<DevtoArticle | null> {
+  const res = await fetch(`https://dev.to/api/articles/${id}`, {
+    headers: { 'User-Agent': 'aiPulse/1.0' },
+  });
+  if (!res.ok) return null;
   return res.json();
 }
 
 async function fetchDevtoPosts(): Promise<PipelinePost[]> {
-  const results = await Promise.allSettled(TAGS.map(fetchByTag));
+  // Step 1: fetch listings for all tags in parallel
+  const tagResults = await Promise.allSettled(TAGS.map(fetchByTag));
 
-  const seen = new Set<string>();
-  const posts: PipelinePost[] = [];
+  // Deduplicate and pre-filter by reaction count
+  const seen = new Set<number>();
+  const candidates: DevtoListItem[] = [];
 
-  for (const result of results) {
+  for (const result of tagResults) {
     if (result.status !== 'fulfilled') continue;
-
     for (const article of result.value) {
-      if (seen.has(article.url)) continue;
-      seen.add(article.url);
-
-      if (
-        article.positive_reactions_count < 30 ||
-        !article.body_markdown ||
-        article.body_markdown.length < 500
-      ) continue;
-
-      posts.push({
-        title: article.title,
-        content: article.body_markdown,
-        url: article.url,
-        author: article.user.name,
-        source: 'devto',
-        score: article.positive_reactions_count,
-      });
+      if (seen.has(article.id)) continue;
+      seen.add(article.id);
+      if (article.positive_reactions_count >= MIN_REACTIONS) {
+        candidates.push(article);
+      }
     }
+  }
+
+  // Step 2: fetch full articles (with body_markdown) in parallel for candidates
+  const fullResults = await Promise.allSettled(
+    candidates.map((c) => fetchFullArticle(c.id)),
+  );
+
+  const posts: PipelinePost[] = [];
+  for (const result of fullResults) {
+    if (result.status !== 'fulfilled' || !result.value) continue;
+    const article = result.value;
+    if (!article.body_markdown || article.body_markdown.length < MIN_BODY_LENGTH) continue;
+
+    posts.push({
+      title: article.title,
+      content: article.body_markdown,
+      url: article.url,
+      author: article.user.name,
+      source: 'devto',
+      score: article.positive_reactions_count,
+    });
   }
 
   return posts;
