@@ -20,47 +20,10 @@ interface RedditChild {
   };
 }
 
-async function getAccessToken(): Promise<string> {
-  const clientId = process.env.REDDIT_CLIENT_ID!;
-  const clientSecret = process.env.REDDIT_CLIENT_SECRET!;
-  const username = process.env.REDDIT_USERNAME!;
-  const password = process.env.REDDIT_PASSWORD!;
-
-  const credentials = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
-
-  const res = await fetch('https://www.reddit.com/api/v1/access_token', {
-    method: 'POST',
-    headers: {
-      Authorization: `Basic ${credentials}`,
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'User-Agent': `aiPulse/1.0 by ${username}`,
-    },
-    body: new URLSearchParams({ grant_type: 'password', username, password }),
-  });
-
-  if (!res.ok) {
-    const body = await res.text();
-    throw new Error(`Reddit OAuth failed (${res.status}): ${body}`);
-  }
-
-  const json = await res.json();
-  if (json.error) throw new Error(`Reddit OAuth error: ${json.error}`);
-  return json.access_token as string;
-}
-
-async function fetchSubredditPosts(
-  subreddit: string,
-  token: string,
-  username: string,
-): Promise<PipelinePost[]> {
+async function fetchSubredditPosts(subreddit: string): Promise<PipelinePost[]> {
   const res = await fetch(
-    `https://oauth.reddit.com/r/${subreddit}/top?limit=25&t=week`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'User-Agent': `aiPulse/1.0 by ${username}`,
-      },
-    },
+    `https://www.reddit.com/r/${subreddit}/top.json?limit=10&t=week`,
+    { headers: { 'User-Agent': 'aiPulse/1.0' } },
   );
 
   if (!res.ok) {
@@ -74,7 +37,7 @@ async function fetchSubredditPosts(
   return children
     .filter(
       (child) =>
-        child.data.score >= 50 &&
+        child.data.score >= 100 &&
         child.data.is_self &&
         child.data.selftext.length > 200,
     )
@@ -89,16 +52,21 @@ async function fetchSubredditPosts(
 }
 
 async function fetchRedditPosts(): Promise<PipelinePost[]> {
-  const username = process.env.REDDIT_USERNAME!;
-  const token = await getAccessToken();
+  const results = await Promise.allSettled(SUBREDDITS.map(fetchSubredditPosts));
 
-  const results = await Promise.allSettled(
-    SUBREDDITS.map((sub) => fetchSubredditPosts(sub, token, username)),
-  );
+  const seen = new Set<string>();
+  const posts: PipelinePost[] = [];
 
-  return results
-    .filter((r): r is PromiseFulfilledResult<PipelinePost[]> => r.status === 'fulfilled')
-    .flatMap((r) => r.value);
+  for (const result of results) {
+    if (result.status !== 'fulfilled') continue;
+    for (const post of result.value) {
+      if (seen.has(post.url)) continue;
+      seen.add(post.url);
+      posts.push(post);
+    }
+  }
+
+  return posts;
 }
 
 export const redditSource: PipelineSource = {

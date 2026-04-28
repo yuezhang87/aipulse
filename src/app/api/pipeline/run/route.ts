@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { hnSource } from '@/lib/pipeline/hn-scraper';
-// import { redditSource } from '@/lib/pipeline/reddit-scraper';
+import { redditSource } from '@/lib/pipeline/reddit-scraper';
 import { processPost } from '@/lib/pipeline/claude-processor';
 import { PipelineSource } from '@/lib/pipeline/types';
 
@@ -9,7 +9,7 @@ const PIPELINE_SECRET = 'aipulse-pipeline-2026';
 
 const SOURCES: PipelineSource[] = [
   hnSource,
-  // redditSource,
+  redditSource,
 ];
 
 function getSupabase() {
@@ -28,6 +28,7 @@ export async function POST(req: NextRequest) {
   let processed = 0;
   let approved = 0;
   let saved = 0;
+  const seenUrls = new Set<string>();
 
   for (const source of SOURCES) {
     let posts;
@@ -37,6 +38,12 @@ export async function POST(req: NextRequest) {
       console.error(`[${source.name}] Failed to fetch posts:`, err);
       continue;
     }
+
+    posts = posts.filter((p) => {
+      if (seenUrls.has(p.url)) return false;
+      seenUrls.add(p.url);
+      return true;
+    });
 
     processed += posts.length;
 
