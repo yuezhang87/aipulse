@@ -24,8 +24,8 @@ async function searchHn(query: string): Promise<HnHit[]> {
   const params = new URLSearchParams({
     query,
     tags: 'ask_hn',
-    numericFilters: 'points>50',
-    hitsPerPage: '30',
+    numericFilters: 'points>100',
+    hitsPerPage: '10',
   });
 
   const res = await fetch(`https://hn.algolia.com/api/v1/search?${params}`);

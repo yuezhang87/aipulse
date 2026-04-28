@@ -38,41 +38,49 @@ export async function POST(req: NextRequest) {
       continue;
     }
 
-    for (const post of posts) {
-      processed++;
+    processed += posts.length;
 
-      let result;
-      try {
-        result = await processPost(post);
-      } catch (err) {
-        console.error(`[${source.name}] Failed to process "${post.title}":`, err);
-        continue;
-      }
+    // Process Claude calls in batches of 3 to stay within rate limits
+    const CONCURRENCY = 3;
+    for (let i = 0; i < posts.length; i += CONCURRENCY) {
+      const batch = posts.slice(i, i + CONCURRENCY);
+      const results = await Promise.allSettled(batch.map((post) => processPost(post)));
 
-      if (!result.story) continue;
-      approved++;
+      for (let j = 0; j < results.length; j++) {
+        const outcome = results[j];
+        const post = batch[j];
 
-      const story = result.story;
-      const { error } = await supabase.from('pending_stories').insert({
-        title: story.title,
-        slug: story.slug,
-        summary: story.summary,
-        content: story.content,
-        author: story.author,
-        category: story.category,
-        tool: story.tool,
-        tool_url: story.toolUrl,
-        spicy: story.spicy,
-        source_url: story.sourceUrl,
-        source: post.source,
-        score: story.score,
-        status: 'pending',
-      });
+        if (outcome.status === 'rejected') {
+          console.error(`[${source.name}] Failed to process "${post.title}":`, outcome.reason);
+          continue;
+        }
 
-      if (error) {
-        console.error(`[${source.name}] Failed to save "${story.title}":`, error.message);
-      } else {
-        saved++;
+        const result = outcome.value;
+        if (!result.story) continue;
+        approved++;
+
+        const story = result.story;
+        const { error } = await supabase.from('pending_stories').insert({
+          title: story.title,
+          slug: story.slug,
+          summary: story.summary,
+          content: story.content,
+          author: story.author,
+          category: story.category,
+          tool: story.tool,
+          tool_url: story.toolUrl,
+          spicy: story.spicy,
+          source_url: story.sourceUrl,
+          source: post.source,
+          score: story.score,
+          status: 'pending',
+        });
+
+        if (error) {
+          console.error(`[${source.name}] Failed to save "${story.title}":`, error.message);
+        } else {
+          saved++;
+        }
       }
     }
   }
