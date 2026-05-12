@@ -8,7 +8,17 @@ export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const dbStories = await getApprovedStories();
-  const stories = dbStories.length > 0 ? dbStories : mockStories;
+  const seenSlugs = new Set<string>();
+  const stories = [...dbStories, ...mockStories]
+    .filter((s) => {
+      if (seenSlugs.has(s.slug)) return false;
+      seenSlugs.add(s.slug);
+      return true;
+    })
+    .sort(
+      (a, b) =>
+        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+    );
   return (
     <div className="min-h-screen bg-navy">
       <Navbar />

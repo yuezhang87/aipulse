@@ -9,14 +9,20 @@ function getSupabase() {
 }
 
 function checkAuth(req: NextRequest) {
-  return req.headers.get('x-admin-secret') === process.env.ADMIN_SECRET;
+  const pw = req.headers.get('x-admin-password');
+  const secret = req.headers.get('x-admin-secret');
+  return (
+    pw === process.env.ADMIN_PASSWORD ||
+    secret === process.env.ADMIN_SECRET
+  );
 }
 
 export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  if (!checkAuth(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!checkAuth(req))
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const { id } = await params;
   const body = await req.json();
@@ -25,6 +31,8 @@ export async function PATCH(
   if (body.status !== undefined) updates.status = body.status;
   if (body.title !== undefined) updates.title = body.title;
   if (body.summary !== undefined) updates.summary = body.summary;
+  if (body.content !== undefined) updates.content = body.content;
+  if (body.spicy !== undefined) updates.spicy = body.spicy;
 
   const supabase = getSupabase();
   const { error } = await supabase

@@ -8,10 +8,18 @@ function getSupabase() {
   );
 }
 
+function checkAuth(req: NextRequest) {
+  const pw = req.headers.get('x-admin-password');
+  const secret = req.headers.get('x-admin-secret');
+  return (
+    pw === process.env.ADMIN_PASSWORD ||
+    secret === process.env.ADMIN_SECRET
+  );
+}
+
 export async function POST(req: NextRequest) {
-  if (req.headers.get('x-admin-secret') !== process.env.ADMIN_SECRET) {
+  if (!checkAuth(req))
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
 
   const supabase = getSupabase();
   const { data, error } = await supabase
