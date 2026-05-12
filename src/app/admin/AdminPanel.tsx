@@ -111,6 +111,7 @@ export default function AdminPanel() {
 
   const patch = useCallback(async (id: string, body: object) => {
     setActionLoading((prev) => new Set(prev).add(id));
+    console.log('[admin] sending x-admin-password:', ADMIN_PASSWORD);
     try {
       const res = await fetch(`/api/admin/stories/${id}`, {
         method: "PATCH",
@@ -179,6 +180,7 @@ export default function AdminPanel() {
 
   const autoApprove = async () => {
     setAutoLoading(true);
+    console.log('[admin] auto-approve sending x-admin-password:', ADMIN_PASSWORD);
     try {
       const res = await fetch("/api/admin/stories/auto-approve", {
         method: "POST",

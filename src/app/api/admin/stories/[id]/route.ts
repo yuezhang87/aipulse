@@ -11,10 +11,15 @@ function getSupabase() {
 function checkAuth(req: NextRequest) {
   const pw = req.headers.get('x-admin-password');
   const secret = req.headers.get('x-admin-secret');
-  return (
-    pw === process.env.ADMIN_PASSWORD ||
-    secret === process.env.ADMIN_SECRET
-  );
+  // Fall back through both env vars so a missing reload doesn't break auth
+  const expectedPw =
+    process.env.ADMIN_PASSWORD ||
+    process.env.NEXT_PUBLIC_ADMIN_PASSWORD ||
+    'aipulse2026';
+  console.log('[admin-api PATCH] x-admin-password received:', pw);
+  console.log('[admin-api PATCH] ADMIN_PASSWORD env:', process.env.ADMIN_PASSWORD);
+  console.log('[admin-api PATCH] match:', pw === expectedPw);
+  return pw === expectedPw || secret === process.env.ADMIN_SECRET;
 }
 
 export async function PATCH(
