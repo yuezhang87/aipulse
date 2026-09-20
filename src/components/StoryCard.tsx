@@ -3,16 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Story } from "@/types/story";
-
-const categoryColors: Record<string, string> = {
-  Design: "bg-pink-500/10 text-pink-400 border-pink-500/20",
-  Research: "bg-blue-500/10 text-blue-400 border-blue-500/20",
-  Finance: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-  Health: "bg-teal-500/10 text-teal-400 border-teal-500/20",
-  Coding: "bg-[#7F77DD]/10 text-[#a29ce8] border-[#7F77DD]/20",
-  Writing: "bg-orange-500/10 text-orange-400 border-orange-500/20",
-  Business: "bg-amber-500/10 text-amber-400 border-amber-500/20",
-};
+import { categoryColors } from "@/lib/category-colors";
 
 function timeAgo(dateStr: string): string {
   const diff = Date.now() - new Date(dateStr).getTime();
@@ -58,7 +49,7 @@ export default function StoryCard({ story, featured = false }: Props) {
               {story.category}
             </span>
             {story.spicy && (
-              <span title="Spicy take" className="text-sm leading-none">🌶️</span>
+              <span title="Bold prediction" className="text-sm leading-none">🔮</span>
             )}
           </div>
           <span className="text-xs text-[var(--foreground)] opacity-40 shrink-0">
@@ -125,7 +116,7 @@ export default function StoryCard({ story, featured = false }: Props) {
             {story.category}
           </span>
           {story.spicy && (
-            <span title="Spicy take" className="text-sm leading-none">🌶️</span>
+            <span title="Bold prediction" className="text-sm leading-none">🔮</span>
           )}
         </div>
         <h3 className="text-sm font-semibold text-white group-hover:text-[#a29ce8] transition-colors leading-snug mb-1.5 line-clamp-2">

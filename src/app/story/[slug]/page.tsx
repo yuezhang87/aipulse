@@ -78,7 +78,7 @@ export default async function StoryPage({
               {story.category}
             </span>
             {story.spicy && (
-              <span title="Spicy take" className="text-base leading-none">🌶️</span>
+              <span title="Bold prediction" className="text-base leading-none">🔮</span>
             )}
             <span className="text-xs text-[var(--foreground)] opacity-40">
               {timeAgo(story.publishedAt)} · {story.readTime} min read

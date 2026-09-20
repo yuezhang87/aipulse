@@ -47,9 +47,9 @@ export default function TrendingSidebar() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
         </div>
-        <h3 className="text-sm font-bold text-white mb-1">Daily AI Digest</h3>
+        <h3 className="text-sm font-bold text-white mb-1">Weekly Trend Digest</h3>
         <p className="text-xs text-[var(--foreground)] opacity-60 mb-4 leading-relaxed">
-          Get the hottest AI stories delivered to your inbox every morning.
+          The week&apos;s notable signals on notifications and AI agents, delivered every Monday.
         </p>
         <div className="space-y-2">
           <input
@@ -67,7 +67,7 @@ export default function TrendingSidebar() {
       <div className="bg-[var(--card-bg)] border border-[var(--border)] rounded-2xl p-5">
         <h3 className="text-sm font-bold text-white mb-3">Popular Topics</h3>
         <div className="flex flex-wrap gap-2">
-          {["Productivity", "Prompting", "Claude", "ChatGPT", "Copilot", "No-code", "Figma AI", "Perplexity"].map((tag) => (
+          {["Agentic UX", "Do Not Disturb", "Push APIs", "Wear OS", "Ambient Computing", "MCP", "On-device AI", "Pixel"].map((tag) => (
             <button
               key={tag}
               className="text-xs px-3 py-1 rounded-full border border-[var(--border)] text-[var(--foreground)] opacity-60 hover:opacity-100 hover:border-[#7F77DD]/50 hover:text-[#a29ce8] transition-all"

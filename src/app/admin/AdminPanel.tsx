@@ -362,7 +362,7 @@ export default function AdminPanel() {
                         </span>
                         {story.spicy && (
                           <span className="text-xs px-2 py-0.5 rounded-full border bg-orange-500/10 text-orange-400 border-orange-500/20 font-semibold">
-                            🌶️ Spicy
+                            🔮 Bold prediction
                           </span>
                         )}
                         {story.source_url ? (

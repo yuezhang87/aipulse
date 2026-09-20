@@ -1,11 +1,11 @@
 export type Category =
-  | "Design"
-  | "Research"
-  | "Finance"
-  | "Health"
-  | "Coding"
-  | "Writing"
-  | "Business";
+  | "Agentic Notifications"
+  | "Notification Fatigue"
+  | "Personalization"
+  | "Platform Strategy"
+  | "Ambient Computing"
+  | "Privacy & Security"
+  | "Developer Ecosystem";
 
 export interface StoryTool {
   name: string;
