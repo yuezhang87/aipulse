@@ -36,10 +36,10 @@ export default function Navbar() {
               Stories
             </Link>
             <Link
-              href="#"
+              href="/dashboard"
               className="text-sm text-[var(--foreground)] opacity-70 hover:opacity-100 hover:text-[#a29ce8] transition-all"
             >
-              Explore
+              Trends
             </Link>
           </div>
 
@@ -77,7 +77,7 @@ export default function Navbar() {
         {menuOpen && (
           <div className="md:hidden py-4 border-t border-[var(--border)] flex flex-col gap-3">
             <Link href="/" className="text-sm opacity-80 hover:opacity-100 hover:text-[#a29ce8] transition-all">Stories</Link>
-            <Link href="#" className="text-sm opacity-80 hover:opacity-100 hover:text-[#a29ce8] transition-all">Explore</Link>
+            <Link href="/dashboard" className="text-sm opacity-80 hover:opacity-100 hover:text-[#a29ce8] transition-all">Trends</Link>
           </div>
         )}
       </div>

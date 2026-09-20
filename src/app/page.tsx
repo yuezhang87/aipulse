@@ -29,15 +29,16 @@ export default async function Home() {
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 text-xs px-3 py-1.5 rounded-full border border-[#7F77DD]/30 bg-[#7F77DD]/10 text-[#a29ce8] mb-4">
               <span className="w-1.5 h-1.5 rounded-full bg-[#7F77DD] animate-pulse inline-block" />
-              Real stories from real people using AI
+              Signals on the future of mobile notifications & agents
             </div>
             <h1 className="text-4xl sm:text-5xl font-extrabold text-white leading-tight mb-3">
-              Discover how people use AI —{" "}
-              <span className="text-[#7F77DD]">one story at a time.</span>
+              Where AI agents are taking your notifications —{" "}
+              <span className="text-[#7F77DD]">before it happens.</span>
             </h1>
             <p className="text-base text-[var(--foreground)] opacity-60 leading-relaxed">
-              Real stories from designers, nurses, developers, writers, and more
-              — sharing how AI is changing how they actually work.
+              Tracking product launches, platform shifts, and forward-looking bets
+              from across the industry — a macro view of how notifications evolve
+              as agents take on more of your daily tasks.
             </p>
           </div>
         </div>

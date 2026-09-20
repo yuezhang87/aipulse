@@ -1,7 +1,13 @@
 "use client";
 
 const categoryEmojis: Record<string, string> = {
-  Business: "💼",
+  "Agentic Notifications": "🤖",
+  "Notification Fatigue": "🔕",
+  Personalization: "🎛️",
+  "Platform Strategy": "🏗️",
+  "Ambient Computing": "🛰️",
+  "Privacy & Security": "🔒",
+  "Developer Ecosystem": "🧩",
 };
 
 interface Props {
@@ -38,7 +44,7 @@ export default function CategoryFilter({ categories, active, onChange, spicyOnly
             : "bg-transparent border-[var(--border)] text-[var(--foreground)] opacity-60 hover:opacity-100 hover:border-orange-500/50 hover:text-orange-300"
         }`}
       >
-        🌶️ Spicy
+        🔮 Bold predictions
       </button>
     </div>
   );

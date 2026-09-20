@@ -1,6 +1,7 @@
 import { PipelinePost, PipelineSource } from './types';
+import { isNotificationRelevant } from './relevance';
 
-const TAGS = ['ai', 'chatgpt', 'claude', 'llm', 'machinelearning'];
+const TAGS = ['android', 'ios', 'mobiledev', 'ai', 'llm', 'agents'];
 const MIN_REACTIONS = 30;
 const MIN_BODY_LENGTH = 500;
 
@@ -65,6 +66,7 @@ async function fetchDevtoPosts(): Promise<PipelinePost[]> {
     if (result.status !== 'fulfilled' || !result.value) continue;
     const article = result.value;
     if (!article.body_markdown || article.body_markdown.length < MIN_BODY_LENGTH) continue;
+    if (!isNotificationRelevant(`${article.title} ${article.body_markdown}`)) continue;
 
     posts.push({
       title: article.title,

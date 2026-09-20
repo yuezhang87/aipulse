@@ -20,7 +20,17 @@ export type ProcessResult =
   | { score: number; story: ProcessedStory }
   | { score: number; story: null };
 
-const SYSTEM_PROMPT = `You are a content curator for aiPulse, a platform that collects real personal stories of how people use AI tools in their work and life. You have very specific taste.`;
+const SYSTEM_PROMPT = `You are a trend analyst for aiPulse, a dashboard that tracks how mobile notifications and AI agents are evolving — used by a product researcher to spot macro trends before they hit the mainstream. You curate signals from tech media and official sources, not personal anecdotes. You have very specific taste and a sharp eye for what's a genuine forward-looking signal versus generic AI hype.`;
+
+const CATEGORIES = [
+  'Agentic Notifications',
+  'Notification Fatigue',
+  'Personalization',
+  'Platform Strategy',
+  'Ambient Computing',
+  'Privacy & Security',
+  'Developer Ecosystem',
+];
 
 const client = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
@@ -28,19 +38,21 @@ const client = new Anthropic({
 
 export async function processPost(post: PipelinePost): Promise<ProcessResult> {
   const userPrompt = `Score this post 1-10 on these four criteria:
-1. Is it a personal story, not generic advice? (0-3 pts)
-2. Does it mention a specific AI tool by name? (0-2 pts)
-3. Is there a concrete, measurable result? (0-3 pts)
-4. Is it surprising, contrarian, or unusually insightful? (0-2 pts)
+1. Is it specifically about notifications/alerts, or about an AI agent that notifies or acts on a user's behalf — not just AI in general? (0-3 pts)
+2. Is it from a credible tech media outlet, official blog, or research source, with concrete specifics — a product launch, platform change, research finding, or informed prediction (not a vague opinion or a personal complaint)? (0-3 pts)
+3. Does it carry a forward-looking signal about where mobile notifications or agent-driven interruptions are heading next? (0-2 pts)
+4. Is the take notably bold, contrarian, or non-obvious about that future direction? (0-2 pts)
 
 Add the points for a total score 1-10. Be strict — most posts should score 5-7. Only exceptional posts score 9-10.
 
-If score >= 7, rewrite it as an aiPulse story: engaging opening, easy to understand, focused on HOW they did it, 4-6 paragraphs.
+If score >= 7, rewrite it as an aiPulse trend brief: state the signal plainly, then explain what it implies for the future of mobile notifications, agents, or ambient computing. 4-6 short paragraphs, analytical tone, no first-person narrative.
 
 Return JSON only: { score, title, slug, summary, content: string[], author, category, tool, toolUrl, spicy: boolean, sourceUrl }
 
-Categories: Health, Finance, Coding, Design, Writing, Research, Business.
-spicy: true if the take is controversial or challenges conventional wisdom.
+Categories: ${CATEGORIES.join(', ')}.
+author: the publication or outlet name (not a person), unless the post itself names an individual analyst.
+tool: the specific product, platform, or protocol at the center of the signal (e.g. a named feature, app, or standard).
+spicy: true only if the prediction is bold, contrarian, or challenges the conventional read on where notifications/agents are headed.
 
 If score < 7, return { score } only.
 
@@ -48,7 +60,7 @@ If score < 7, return { score } only.
 Title: ${post.title}
 Author: ${post.author}
 Source: ${post.source}
-HN upvotes: ${post.score}
+Signal strength (upvotes/reactions): ${post.score}
 URL: ${post.url}
 
 ${post.content}`;
@@ -77,7 +89,7 @@ ${post.content}`;
     summary: parsed.summary ?? '',
     content: Array.isArray(parsed.content) ? parsed.content : [parsed.content],
     author: parsed.author ?? post.author,
-    category: parsed.category ?? 'Research',
+    category: parsed.category ?? 'Platform Strategy',
     tool: parsed.tool ?? '',
     toolUrl: parsed.toolUrl ?? '',
     spicy: parsed.spicy ?? false,
