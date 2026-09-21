@@ -1,11 +1,23 @@
 import Navbar from "@/components/Navbar";
 import StatTile from "@/components/dashboard/StatTile";
-import CategoryBarChart from "@/components/dashboard/CategoryBarChart";
+import CategoryDonut from "@/components/dashboard/CategoryDonut";
 import VolumeTrendChart from "@/components/dashboard/VolumeTrendChart";
 import RankedList from "@/components/dashboard/RankedList";
+import MomentumGrid from "@/components/dashboard/MomentumGrid";
+import BoldPredictions from "@/components/dashboard/BoldPredictions";
+import RecentSignals from "@/components/dashboard/RecentSignals";
+import ReportDigest from "@/components/dashboard/ReportDigest";
 import { getApprovedStories } from "@/lib/db-stories";
 import { mockStories } from "@/lib/mock-stories";
-import { countByCategory, countByMonth, countBySource, topTools } from "@/lib/trend-data";
+import {
+  countByCategory,
+  countByMonth,
+  countBySource,
+  topTools,
+  computeMomentum,
+  buildMomentumDigest,
+  buildExecSummary,
+} from "@/lib/trend-data";
 
 export const dynamic = "force-dynamic";
 
@@ -24,6 +36,10 @@ export default async function DashboardPage() {
   const toolCounts = topTools(stories);
   const boldPredictions = stories.filter((s) => s.spicy).length;
   const distinctSources = sourceCounts.length;
+
+  const { months, rows } = computeMomentum(stories);
+  const momentumDigest = buildMomentumDigest(months, rows, stories.length);
+  const execSummary = buildExecSummary(stories);
 
   return (
     <div className="min-h-screen bg-navy">
@@ -49,6 +65,9 @@ export default async function DashboardPage() {
       </div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-6">
+        {/* Report-ready digest */}
+        <ReportDigest summary={execSummary} stories={stories} />
+
         {/* KPI row */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <StatTile label="Tracked signals" value={stories.length} />
@@ -57,14 +76,28 @@ export default async function DashboardPage() {
           <StatTile label="Sources monitored" value={distinctSources} />
         </div>
 
+        {/* Momentum */}
+        <div className="bg-[var(--card-bg)] border border-[var(--border)] rounded-2xl p-6">
+          <div className="flex items-start justify-between gap-3 mb-1 flex-wrap">
+            <h2 className="text-sm font-bold text-white">Signal by theme — momentum</h2>
+            <span className="text-[11px] font-semibold text-[#a29ce8] bg-[#7F77DD]/10 rounded-md px-2 py-0.5 whitespace-nowrap">
+              → Trend section
+            </span>
+          </div>
+          <p className="text-xs text-[var(--foreground)] opacity-40 mb-4">
+            This month&apos;s count and how it moved vs. last month, per theme
+          </p>
+          <MomentumGrid months={months} rows={rows} digest={momentumDigest} />
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Category distribution */}
           <div className="bg-[var(--card-bg)] border border-[var(--border)] rounded-2xl p-6">
-            <h2 className="text-sm font-bold text-white mb-1">Signal by theme</h2>
+            <h2 className="text-sm font-bold text-white mb-1">Theme distribution</h2>
             <p className="text-xs text-[var(--foreground)] opacity-40 mb-5">
-              Which part of the notification/agent story is getting the most coverage
+              Share of tracked signals to date, by theme
             </p>
-            <CategoryBarChart data={categoryCounts} />
+            <CategoryDonut data={categoryCounts} />
           </div>
 
           {/* Volume trend */}
@@ -87,14 +120,42 @@ export default async function DashboardPage() {
             <RankedList data={sourceCounts} />
           </div>
 
-          {/* Top tools/platforms mentioned */}
+          {/* Bold predictions */}
           <div className="bg-[var(--card-bg)] border border-[var(--border)] rounded-2xl p-6">
-            <h2 className="text-sm font-bold text-white mb-1">Most-mentioned products & platforms</h2>
+            <div className="flex items-start justify-between gap-3 mb-1 flex-wrap">
+              <h2 className="text-sm font-bold text-white">Bold predictions</h2>
+              <span className="text-[11px] font-semibold text-[#a29ce8] bg-[#7F77DD]/10 rounded-md px-2 py-0.5 whitespace-nowrap">
+                → Notable signals
+              </span>
+            </div>
             <p className="text-xs text-[var(--foreground)] opacity-40 mb-5">
-              What&apos;s actually shipping the features driving this trend
+              Contrarian or non-obvious calls, worth flagging on their own
             </p>
-            <RankedList data={toolCounts} />
+            <BoldPredictions stories={stories} />
           </div>
+        </div>
+
+        {/* Most-mentioned products & platforms */}
+        <div className="bg-[var(--card-bg)] border border-[var(--border)] rounded-2xl p-6">
+          <h2 className="text-sm font-bold text-white mb-1">Most-mentioned products & platforms</h2>
+          <p className="text-xs text-[var(--foreground)] opacity-40 mb-5">
+            What&apos;s actually shipping the features driving this trend
+          </p>
+          <RankedList data={toolCounts} />
+        </div>
+
+        {/* Recent signals */}
+        <div className="bg-[var(--card-bg)] border border-[var(--border)] rounded-2xl p-6">
+          <div className="flex items-start justify-between gap-3 mb-1 flex-wrap">
+            <h2 className="text-sm font-bold text-white">Recent signals</h2>
+            <span className="text-[11px] font-semibold text-[#a29ce8] bg-[#7F77DD]/10 rounded-md px-2 py-0.5 whitespace-nowrap">
+              → Appendix / citations
+            </span>
+          </div>
+          <p className="text-xs text-[var(--foreground)] opacity-40 mb-2">
+            Every tracked signal, most recent first — click a row for a quick summary
+          </p>
+          <RecentSignals stories={stories} />
         </div>
       </div>
 

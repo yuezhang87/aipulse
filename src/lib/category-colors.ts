@@ -18,3 +18,24 @@ export const categoryBarColors: Record<string, string> = {
   "Privacy & Security": "bg-amber-500",
   "Developer Ecosystem": "bg-blue-500",
 };
+
+// Raw hex for contexts that can't use Tailwind classes (SVG stroke/fill).
+export const categoryHexColors: Record<string, string> = {
+  "Agentic Notifications": "#7F77DD",
+  "Notification Fatigue": "#f43f5e",
+  Personalization: "#ec4899",
+  "Platform Strategy": "#10b981",
+  "Ambient Computing": "#14b8a6",
+  "Privacy & Security": "#f59e0b",
+  "Developer Ecosystem": "#3b82f6",
+};
+
+export const CATEGORY_ORDER = [
+  "Agentic Notifications",
+  "Notification Fatigue",
+  "Personalization",
+  "Platform Strategy",
+  "Ambient Computing",
+  "Privacy & Security",
+  "Developer Ecosystem",
+] as const;
