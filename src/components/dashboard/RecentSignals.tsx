@@ -22,7 +22,7 @@ export default function RecentSignals({ stories }: { stories: Story[] }) {
         const isOpen = openId === s.id;
         const citation = `${s.title} — ${s.source} (${fmtDate(s.publishedAt)}). ${s.sourceUrl}`;
         return (
-          <div key={s.id} className="border-b border-[var(--border)] last:border-0 py-3">
+          <div key={s.id} className="border-b border-[#e4e3ef] last:border-0 py-3">
             <div
               className="flex items-center gap-3 cursor-pointer"
               onClick={() => setOpenId(isOpen ? null : s.id)}
@@ -32,40 +32,40 @@ export default function RecentSignals({ stories }: { stories: Story[] }) {
                 style={{ background: categoryHexColors[s.category] ?? "#7F77DD" }}
               />
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-white leading-snug">
+                <p className="text-sm font-semibold text-[#1a1a2e] leading-snug">
                   <span
-                    className={`inline-block text-[var(--foreground)] opacity-30 mr-1 transition-transform ${isOpen ? "rotate-90" : ""}`}
+                    className={`inline-block text-[#1a1a2e] opacity-30 mr-1 transition-transform ${isOpen ? "rotate-90" : ""}`}
                   >
                     ›
                   </span>
                   {s.title}
-                  {s.spicy && <span className="ml-1.5 text-xs font-bold text-[#a29ce8]">◆ bold</span>}
+                  {s.spicy && <span className="ml-1.5 text-xs font-bold text-[#5B4FC7]">◆ bold</span>}
                 </p>
-                <p className="text-xs text-[var(--foreground)] opacity-40 mt-0.5">
+                <p className="text-xs text-[#1a1a2e] opacity-40 mt-0.5">
                   {s.category} · {s.tool.name}
                 </p>
               </div>
-              <span className="text-xs text-[var(--foreground)] opacity-50 hidden sm:inline shrink-0">
+              <span className="text-xs text-[#1a1a2e] opacity-50 hidden sm:inline shrink-0">
                 {s.source}
               </span>
-              <span className="text-xs font-mono text-[var(--foreground)] opacity-30 shrink-0">
+              <span className="text-xs font-mono text-[#1a1a2e] opacity-30 shrink-0">
                 {fmtDate(s.publishedAt)}
               </span>
             </div>
             {isOpen && (
               <div className="mt-2 ml-[22px] pr-2">
-                <p className="text-xs text-[var(--foreground)] opacity-60 leading-relaxed mb-2 max-w-2xl">
+                <p className="text-xs text-[#1a1a2e] opacity-60 leading-relaxed mb-2 max-w-2xl">
                   {s.summary}
                 </p>
                 <div className="flex items-center gap-3 flex-wrap">
-                  <Link href={`/story/${s.slug}`} className="text-xs text-[#a29ce8] hover:underline font-medium">
+                  <Link href={`/story/${s.slug}`} className="text-xs text-[#5B4FC7] hover:underline font-medium">
                     Read full story →
                   </Link>
                   <a
                     href={s.sourceUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs text-[var(--foreground)] opacity-50 hover:opacity-100"
+                    className="text-xs text-[#1a1a2e] opacity-50 hover:opacity-100"
                   >
                     Original source ↗
                   </a>

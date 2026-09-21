@@ -17,7 +17,7 @@ export default function CopyButton({ text, label = "Copy" }: { text: string; lab
           setTimeout(() => setCopied(false), 1500);
         }
       }}
-      className="text-xs px-2.5 py-1.5 rounded-lg border border-[var(--border)] text-[var(--foreground)] opacity-60 hover:opacity-100 hover:border-[#7F77DD]/40 transition-all whitespace-nowrap font-medium"
+      className="text-xs px-2.5 py-1.5 rounded-lg border border-[#e4e3ef] text-[#1a1a2e] opacity-60 hover:opacity-100 hover:border-[#5B4FC7]/40 hover:text-[#5B4FC7] transition-all whitespace-nowrap font-medium"
     >
       {copied ? "Copied ✓" : label}
     </button>

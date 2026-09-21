@@ -9,7 +9,7 @@ export default function BoldPredictions({ stories }: { stories: Story[] }) {
   const bold = stories.filter((s) => s.spicy);
 
   if (bold.length === 0) {
-    return <p className="text-sm text-[var(--foreground)] opacity-40">No bold predictions flagged yet.</p>;
+    return <p className="text-sm text-[#1a1a2e] opacity-40">No bold predictions flagged yet.</p>;
   }
 
   return (
@@ -17,20 +17,20 @@ export default function BoldPredictions({ stories }: { stories: Story[] }) {
       {bold.map((s) => {
         const citation = `"${s.summary}" — ${s.title}, ${s.source} (${fmtDate(s.publishedAt)}). ${s.sourceUrl}`;
         return (
-          <div key={s.id} className="border border-[var(--border)] rounded-xl p-4 bg-white/[0.03]">
-            <p className="text-sm text-[var(--foreground)] leading-relaxed mb-3">
-              <span className="text-[#a29ce8] font-bold">&ldquo;</span>
+          <div key={s.id} className="border border-[#e4e3ef] rounded-xl p-4 bg-[#faf9fd]">
+            <p className="text-sm text-[#1a1a2e] leading-relaxed mb-3">
+              <span className="text-[#5B4FC7] font-bold">&ldquo;</span>
               {s.summary}
-              <span className="text-[#a29ce8] font-bold">&rdquo;</span>
+              <span className="text-[#5B4FC7] font-bold">&rdquo;</span>
             </p>
             <div className="flex items-center justify-between gap-3 flex-wrap">
-              <p className="text-xs text-[var(--foreground)] opacity-40">
+              <p className="text-xs text-[#1a1a2e] opacity-50">
                 {s.category} ·{" "}
                 <a
                   href={s.sourceUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="opacity-90 hover:text-[#a29ce8] hover:opacity-100 transition-colors"
+                  className="opacity-90 hover:text-[#5B4FC7] hover:opacity-100 transition-colors"
                 >
                   {s.source}
                 </a>{" "}
@@ -39,7 +39,7 @@ export default function BoldPredictions({ stories }: { stories: Story[] }) {
                   href={s.sourceUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#a29ce8] font-semibold hover:underline"
+                  className="text-[#5B4FC7] font-semibold hover:underline"
                 >
                   Read source ↗
                 </a>

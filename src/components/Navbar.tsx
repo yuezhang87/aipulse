@@ -4,11 +4,18 @@ import { useState } from "react";
 import Link from "next/link";
 import AiPulseLogo from "@/components/AiPulseLogo";
 
-export default function Navbar() {
+export default function Navbar({ light = false }: { light?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const navBg = light ? "bg-white border-[#e4e3ef]" : "bg-navy-dark border-[var(--border)]";
+  const text = light ? "text-[#1a1a2e]" : "text-white";
+  const linkText = light
+    ? "text-[#1a1a2e]/70 hover:opacity-100 hover:text-[#5B4FC7]"
+    : "text-[var(--foreground)] opacity-70 hover:opacity-100 hover:text-[#a29ce8]";
+  const iconBorder = light ? "border-[#e4e3ef] text-[#1a1a2e]" : "border-[var(--border)] text-[var(--foreground)]";
+
   return (
-    <nav className="sticky top-0 z-50 bg-navy-dark border-b border-[var(--border)]">
+    <nav className={`sticky top-0 z-50 border-b ${navBg}`}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -22,30 +29,24 @@ export default function Navbar() {
             >
               <AiPulseLogo size={32} />
             </div>
-            <span className="text-white font-bold text-lg tracking-tight">
+            <span className={`font-bold text-lg tracking-tight ${text}`}>
               aiPulse
             </span>
           </Link>
 
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-6">
-            <Link
-              href="/"
-              className="text-sm text-[var(--foreground)] opacity-70 hover:opacity-100 hover:text-[#a29ce8] transition-all"
-            >
+            <Link href="/" className={`text-sm transition-all ${linkText}`}>
               Stories
             </Link>
-            <Link
-              href="/dashboard"
-              className="text-sm text-[var(--foreground)] opacity-70 hover:opacity-100 hover:text-[#a29ce8] transition-all"
-            >
+            <Link href="/dashboard" className={`text-sm transition-all ${linkText}`}>
               Trends
             </Link>
           </div>
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden p-2 rounded-lg border border-[var(--border)] text-[var(--foreground)]"
+            className={`md:hidden p-2 rounded-lg border ${iconBorder}`}
             onClick={() => setMenuOpen(!menuOpen)}
           >
             <svg
@@ -75,9 +76,9 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         {menuOpen && (
-          <div className="md:hidden py-4 border-t border-[var(--border)] flex flex-col gap-3">
-            <Link href="/" className="text-sm opacity-80 hover:opacity-100 hover:text-[#a29ce8] transition-all">Stories</Link>
-            <Link href="/dashboard" className="text-sm opacity-80 hover:opacity-100 hover:text-[#a29ce8] transition-all">Trends</Link>
+          <div className={`md:hidden py-4 border-t flex flex-col gap-3 ${light ? "border-[#e4e3ef]" : "border-[var(--border)]"}`}>
+            <Link href="/" className={`text-sm transition-all ${linkText}`}>Stories</Link>
+            <Link href="/dashboard" className={`text-sm transition-all ${linkText}`}>Trends</Link>
           </div>
         )}
       </div>
