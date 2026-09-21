@@ -42,21 +42,21 @@ export default async function DashboardPage() {
   const execSummary = buildExecSummary(stories);
 
   return (
-    <div className="min-h-screen bg-navy">
-      <Navbar />
+    <div className="min-h-screen bg-[#f7f7fb]">
+      <Navbar light />
 
-      <div className="bg-gradient-to-b from-[#12121f] to-navy border-b border-[var(--border)]">
+      <div className="bg-gradient-to-b from-white to-[#f7f7fb] border-b border-[#e4e3ef]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 text-xs px-3 py-1.5 rounded-full border border-[#7F77DD]/30 bg-[#7F77DD]/10 text-[#a29ce8] mb-4">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#7F77DD] animate-pulse inline-block" />
+            <div className="inline-flex items-center gap-2 text-xs px-3 py-1.5 rounded-full border border-[#5B4FC7]/20 bg-[#5B4FC7]/10 text-[#5B4FC7] mb-4">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#5B4FC7] animate-pulse inline-block" />
               Macro view, updated as new signals land
             </div>
-            <h1 className="text-4xl sm:text-5xl font-extrabold text-white leading-tight mb-3">
+            <h1 className="text-4xl sm:text-5xl font-extrabold text-[#1a1a2e] leading-tight mb-3">
               Where mobile notifications are{" "}
-              <span className="text-[#7F77DD]">heading next.</span>
+              <span className="text-[#5B4FC7]">heading next.</span>
             </h1>
-            <p className="text-base text-[var(--foreground)] opacity-60 leading-relaxed">
+            <p className="text-base text-[#1a1a2e] opacity-60 leading-relaxed">
               A rollup of every tracked signal — by theme, by month, by source —
               for spotting momentum before it becomes obvious.
             </p>
@@ -77,14 +77,14 @@ export default async function DashboardPage() {
         </div>
 
         {/* Momentum */}
-        <div className="bg-[var(--card-bg)] border border-[var(--border)] rounded-2xl p-6">
+        <div className="bg-white border border-[#e4e3ef] rounded-2xl p-6 shadow-sm">
           <div className="flex items-start justify-between gap-3 mb-1 flex-wrap">
-            <h2 className="text-sm font-bold text-white">Signal by theme — momentum</h2>
-            <span className="text-[11px] font-semibold text-[#a29ce8] bg-[#7F77DD]/10 rounded-md px-2 py-0.5 whitespace-nowrap">
+            <h2 className="text-sm font-bold text-[#1a1a2e]">Signal by theme — momentum</h2>
+            <span className="text-[11px] font-semibold text-[#5B4FC7] bg-[#5B4FC7]/10 rounded-md px-2 py-0.5 whitespace-nowrap">
               → Trend section
             </span>
           </div>
-          <p className="text-xs text-[var(--foreground)] opacity-40 mb-4">
+          <p className="text-xs text-[#1a1a2e] opacity-40 mb-4">
             This month&apos;s count and how it moved vs. last month, per theme
           </p>
           <MomentumGrid months={months} rows={rows} digest={momentumDigest} />
@@ -92,18 +92,18 @@ export default async function DashboardPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Category distribution */}
-          <div className="bg-[var(--card-bg)] border border-[var(--border)] rounded-2xl p-6">
-            <h2 className="text-sm font-bold text-white mb-1">Theme distribution</h2>
-            <p className="text-xs text-[var(--foreground)] opacity-40 mb-5">
+          <div className="bg-white border border-[#e4e3ef] rounded-2xl p-6 shadow-sm">
+            <h2 className="text-sm font-bold text-[#1a1a2e] mb-1">Theme distribution</h2>
+            <p className="text-xs text-[#1a1a2e] opacity-40 mb-5">
               Share of tracked signals to date, by theme
             </p>
             <CategoryDonut data={categoryCounts} />
           </div>
 
           {/* Volume trend */}
-          <div className="bg-[var(--card-bg)] border border-[var(--border)] rounded-2xl p-6">
-            <h2 className="text-sm font-bold text-white mb-1">Signal volume over time</h2>
-            <p className="text-xs text-[var(--foreground)] opacity-40 mb-5">
+          <div className="bg-white border border-[#e4e3ef] rounded-2xl p-6 shadow-sm">
+            <h2 className="text-sm font-bold text-[#1a1a2e] mb-1">Signal volume over time</h2>
+            <p className="text-xs text-[#1a1a2e] opacity-40 mb-5">
               Tracked signals per month — a rising line means the topic is heating up
             </p>
             <VolumeTrendChart data={monthCounts} />
@@ -112,23 +112,23 @@ export default async function DashboardPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Top sources */}
-          <div className="bg-[var(--card-bg)] border border-[var(--border)] rounded-2xl p-6">
-            <h2 className="text-sm font-bold text-white mb-1">Top sources</h2>
-            <p className="text-xs text-[var(--foreground)] opacity-40 mb-5">
+          <div className="bg-white border border-[#e4e3ef] rounded-2xl p-6 shadow-sm">
+            <h2 className="text-sm font-bold text-[#1a1a2e] mb-1">Top sources</h2>
+            <p className="text-xs text-[#1a1a2e] opacity-40 mb-5">
               Outlets contributing the most tracked signals
             </p>
             <RankedList data={sourceCounts} />
           </div>
 
           {/* Bold predictions */}
-          <div className="bg-[var(--card-bg)] border border-[var(--border)] rounded-2xl p-6">
+          <div className="bg-white border border-[#e4e3ef] rounded-2xl p-6 shadow-sm">
             <div className="flex items-start justify-between gap-3 mb-1 flex-wrap">
-              <h2 className="text-sm font-bold text-white">Bold predictions</h2>
-              <span className="text-[11px] font-semibold text-[#a29ce8] bg-[#7F77DD]/10 rounded-md px-2 py-0.5 whitespace-nowrap">
+              <h2 className="text-sm font-bold text-[#1a1a2e]">Bold predictions</h2>
+              <span className="text-[11px] font-semibold text-[#5B4FC7] bg-[#5B4FC7]/10 rounded-md px-2 py-0.5 whitespace-nowrap">
                 → Notable signals
               </span>
             </div>
-            <p className="text-xs text-[var(--foreground)] opacity-40 mb-5">
+            <p className="text-xs text-[#1a1a2e] opacity-40 mb-5">
               Contrarian or non-obvious calls, worth flagging on their own
             </p>
             <BoldPredictions stories={stories} />
@@ -136,33 +136,33 @@ export default async function DashboardPage() {
         </div>
 
         {/* Most-mentioned products & platforms */}
-        <div className="bg-[var(--card-bg)] border border-[var(--border)] rounded-2xl p-6">
-          <h2 className="text-sm font-bold text-white mb-1">Most-mentioned products & platforms</h2>
-          <p className="text-xs text-[var(--foreground)] opacity-40 mb-5">
+        <div className="bg-white border border-[#e4e3ef] rounded-2xl p-6 shadow-sm">
+          <h2 className="text-sm font-bold text-[#1a1a2e] mb-1">Most-mentioned products & platforms</h2>
+          <p className="text-xs text-[#1a1a2e] opacity-40 mb-5">
             What&apos;s actually shipping the features driving this trend
           </p>
           <RankedList data={toolCounts} />
         </div>
 
         {/* Recent signals */}
-        <div className="bg-[var(--card-bg)] border border-[var(--border)] rounded-2xl p-6">
+        <div className="bg-white border border-[#e4e3ef] rounded-2xl p-6 shadow-sm">
           <div className="flex items-start justify-between gap-3 mb-1 flex-wrap">
-            <h2 className="text-sm font-bold text-white">Recent signals</h2>
-            <span className="text-[11px] font-semibold text-[#a29ce8] bg-[#7F77DD]/10 rounded-md px-2 py-0.5 whitespace-nowrap">
+            <h2 className="text-sm font-bold text-[#1a1a2e]">Recent signals</h2>
+            <span className="text-[11px] font-semibold text-[#5B4FC7] bg-[#5B4FC7]/10 rounded-md px-2 py-0.5 whitespace-nowrap">
               → Appendix / citations
             </span>
           </div>
-          <p className="text-xs text-[var(--foreground)] opacity-40 mb-2">
+          <p className="text-xs text-[#1a1a2e] opacity-40 mb-2">
             Every tracked signal, most recent first — click a row for a quick summary
           </p>
           <RecentSignals stories={stories} />
         </div>
       </div>
 
-      <footer className="border-t border-[var(--border)] mt-4">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--foreground)] opacity-40">
+      <footer className="border-t border-[#e4e3ef] mt-4">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#1a1a2e] opacity-40">
           <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded-md bg-[#7F77DD] flex items-center justify-center">
+            <div className="w-5 h-5 rounded-md bg-[#5B4FC7] flex items-center justify-center">
               <span className="text-white font-bold text-[9px]">ai</span>
             </div>
             <span>aiPulse &copy; 2026</span>

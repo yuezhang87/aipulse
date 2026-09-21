@@ -28,7 +28,7 @@ export default function CategoryDonut({ data }: { data: NamedCount[] }) {
     <div className="flex flex-wrap items-center gap-6">
       <div className="relative w-[150px] h-[150px] shrink-0">
         <svg viewBox="0 0 130 130" className="w-full h-full -rotate-90">
-          <circle cx={CX} cy={CY} r={R} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth={STROKE} />
+          <circle cx={CX} cy={CY} r={R} fill="none" stroke="#eeedf6" strokeWidth={STROKE} />
           {segments.map((s) => (
             <circle
               key={s.name}
@@ -46,8 +46,8 @@ export default function CategoryDonut({ data }: { data: NamedCount[] }) {
           ))}
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-          <span className="text-2xl font-extrabold text-white">{total}</span>
-          <span className="text-[11px] text-[var(--foreground)] opacity-40">signals</span>
+          <span className="text-2xl font-extrabold text-[#1a1a2e]">{total}</span>
+          <span className="text-[11px] text-[#1a1a2e] opacity-40">signals</span>
         </div>
       </div>
       <div className="flex-1 min-w-[180px] flex flex-col gap-2">
@@ -57,9 +57,9 @@ export default function CategoryDonut({ data }: { data: NamedCount[] }) {
               className="w-2 h-2 rounded-full shrink-0"
               style={{ background: categoryHexColors[d.name] ?? "#7F77DD" }}
             />
-            <span className="flex-1 text-[var(--foreground)] opacity-70 truncate">{d.name}</span>
-            <span className="font-semibold text-white tabular-nums">{d.count}</span>
-            <span className="text-[var(--foreground)] opacity-40 tabular-nums w-8 text-right">
+            <span className="flex-1 text-[#1a1a2e] opacity-70 truncate">{d.name}</span>
+            <span className="font-semibold text-[#1a1a2e] tabular-nums">{d.count}</span>
+            <span className="text-[#1a1a2e] opacity-40 tabular-nums w-8 text-right">
               {total > 0 ? Math.round((d.count / total) * 100) : 0}%
             </span>
           </div>
