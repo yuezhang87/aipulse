@@ -55,6 +55,7 @@ export function mapDbStory(row: DbStory): Story {
     imageUrl: row.image_url ?? undefined,
     content: contentArr,
     spicy: row.spicy ?? false,
+    score: row.score,
     tool: {
       name: row.tool ?? '',
       job: '',
