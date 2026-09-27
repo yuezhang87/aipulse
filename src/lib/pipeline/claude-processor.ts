@@ -42,10 +42,9 @@ const SIGNAL_INSTRUCTIONS = `Score this post 1-10 as a trend signal for aiPulse,
 4. Is the take notably bold, contrarian, or non-obvious about that future direction? (0-2 pts)
 Be strict — most posts should score 5-7. Only exceptional posts score 9-10.`;
 
-// Indexed by score, from zero, matching the four-criteria rubric above (max 3+3+2+2=10).
+// Exactly 10 levels (TypeSafe's Score primitive caps at 10) for the 1-10 rubric above.
 const SIGNAL_SCORE_CRITERIA = [
-  "Not about notifications or an AI agent acting on a user's behalf; or a personal complaint/opinion with no forward-looking signal and no credible source.",
-  'Barely relevant: touches notifications/agents only in passing, from a low-credibility source, with no forward-looking claim.',
+  "Not about notifications or an AI agent acting on a user's behalf, or only touches the topic in passing; a personal complaint/opinion with no forward-looking signal and no credible source.",
   'Weak signal: barely touches notifications/agents, from a low-credibility source, with no forward-looking claim.',
   'Marginal: a thin connection to notifications/agents, limited credibility or specifics, no real forward-looking angle.',
   'Below-bar: touches the topic but is generic AI hype, a vague opinion, or lacks concrete specifics from a credible source.',
