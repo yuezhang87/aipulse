@@ -48,7 +48,21 @@ async function fetchWithTimeout(url: string): Promise<Response | null> {
   }
 }
 
-async function fetchArticleText(url: string): Promise<string | null> {
+interface ArticleFetch {
+  content: string;
+  imageUrl?: string;
+}
+
+function resolveImageUrl(raw: string | undefined, pageUrl: string): string | undefined {
+  if (!raw) return undefined;
+  try {
+    return new URL(raw, pageUrl).toString();
+  } catch {
+    return undefined;
+  }
+}
+
+async function fetchArticleText(url: string): Promise<ArticleFetch | null> {
   const res = await fetchWithTimeout(url);
   if (!res || !res.ok) return null;
 
@@ -57,11 +71,19 @@ async function fetchArticleText(url: string): Promise<string | null> {
 
   const html = await res.text();
   const $ = load(html);
+
+  const imageUrl = resolveImageUrl(
+    $('meta[property="og:image"]').attr('content') ||
+      $('meta[name="twitter:image"]').attr('content') ||
+      $('meta[property="og:image:url"]').attr('content'),
+    url,
+  );
+
   $('script, style, nav, header, footer, aside').remove();
 
   const article = $('article').text().trim() || $('main').text().trim() || $('body').text().trim();
   const cleaned = article.replace(/\s+/g, ' ').trim();
-  return cleaned.length > 0 ? cleaned.slice(0, 6000) : null;
+  return cleaned.length > 0 ? { content: cleaned.slice(0, 6000), imageUrl } : null;
 }
 
 async function searchHn(query: string): Promise<HnHit[]> {
@@ -104,8 +126,8 @@ async function fetchHnPosts(): Promise<PipelinePost[]> {
   const posts: PipelinePost[] = [];
 
   const contents = await Promise.allSettled(
-    toProcess.map(async (hit) => {
-      if (hit.story_text) return stripHtml(hit.story_text);
+    toProcess.map(async (hit): Promise<ArticleFetch | null> => {
+      if (hit.story_text) return { content: stripHtml(hit.story_text) };
       if (hit.url) return fetchArticleText(hit.url);
       return null;
     }),
@@ -114,17 +136,18 @@ async function fetchHnPosts(): Promise<PipelinePost[]> {
   for (let i = 0; i < toProcess.length; i++) {
     const hit = toProcess[i];
     const outcome = contents[i];
-    const content = outcome.status === 'fulfilled' ? outcome.value : null;
-    if (!content || content.length < 300) continue;
-    if (!isNotificationRelevant(`${hit.title} ${content}`)) continue;
+    const fetched = outcome.status === 'fulfilled' ? outcome.value : null;
+    if (!fetched || fetched.content.length < 300) continue;
+    if (!isNotificationRelevant(`${hit.title} ${fetched.content}`)) continue;
 
     posts.push({
       title: hit.title,
-      content,
+      content: fetched.content,
       url: hit.url ?? `https://news.ycombinator.com/item?id=${hit.objectID}`,
       author: hit.author,
       source: 'Hacker News',
       score: hit.points,
+      imageUrl: fetched.imageUrl,
     });
   }
 

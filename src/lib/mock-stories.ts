@@ -13,7 +13,6 @@ export const mockStories: Story[] = [
     category: "Agentic Notifications",
     readTime: 5,
     fireCount: 231,
-    imageUrl: "https://picsum.photos/seed/android-intelligent-os/84/84",
     content: [
       "For most of Android's history, notifications existed to tell a user that something happened. Google's latest platform direction treats them as something closer to a status channel for an autonomous process: when an AI agent is executing a multi-step task on a user's behalf, the notification tray becomes its progress bar.",
       "The mechanism Google describes is deliberately narrow at first. For any automation action, users can monitor a task's progress via a notification or switch to a live view of what the agent is doing, and take over manual control at any point. That reversibility — the guarantee that a human can always interrupt and reclaim the wheel — is the load-bearing design constraint the rest of the system is built around.",
@@ -41,7 +40,6 @@ export const mockStories: Story[] = [
     category: "Personalization",
     readTime: 4,
     fireCount: 198,
-    imageUrl: "https://picsum.photos/seed/android16-cooldown/84/84",
     content: [
       "Notification Cooldown started as a quietly-shipped, opt-in setting on Pixel phones with Android 15. Android 16 turns it into a headline platform behavior: when multiple notifications from the same source arrive within a short window, the OS automatically lowers alert volume and minimizes pop-ups for roughly two minutes, without any per-app configuration required from the user.",
       "The design is deliberately conservative about what it touches. Priority notifications — calls, alarms, anything flagged urgent — are exempt from the cooldown entirely. The feature is aimed squarely at the specific failure mode that drives disable-and-uninstall behavior: a chat app or game firing off ten pings in ninety seconds.",
@@ -68,7 +66,6 @@ export const mockStories: Story[] = [
     category: "Privacy & Security",
     readTime: 5,
     fireCount: 214,
-    imageUrl: "https://picsum.photos/seed/apple-privacy-ai/84/84",
     content: [
       "Every AI feature Apple ships in 2026 gets measured against the same yardstick the company set for itself years ago: does it require sending anything off the device. AppleInsider's read on Apple's 2026 roadmap is that this constraint isn't loosening as AI features expand — it's becoming the organizing principle, with Private Cloud Compute as the fallback only when on-device models genuinely can't handle a task.",
       "Notifications are where that architecture is most exposed to daily scrutiny. Summarizing, ranking, and filtering what shows up on a lock screen means an AI model is reading the actual content of a user's messages, emails, and app alerts — arguably the single most sensitive data stream a phone processes continuously. Doing that entirely on-device, with no network round trip, is both a technical constraint and the core of Apple's public pitch for why this is safe.",
@@ -95,7 +92,6 @@ export const mockStories: Story[] = [
     category: "Notification Fatigue",
     readTime: 4,
     fireCount: 176,
-    imageUrl: "https://picsum.photos/seed/focus-mode-wellbeing/84/84",
     content: [
       "The instinct when people describe notification fatigue is to reach for a blocking tool — mute everything, disable badges, turn on grayscale. Focus Mode's design takes a different premise: the problem isn't that notifications exist, it's that deciding whether each one deserves attention is itself the tax, repeated dozens of times a day.",
       "By letting users define a mode — work, driving, sleep — and pre-committing to which apps get through, Focus Mode moves the decision from notification-by-notification triage to a single upfront choice. That's a much smaller cognitive load, and it's the reason usage data consistently shows commitment-device style features outperforming simple mute switches on adherence.",
@@ -122,7 +118,6 @@ export const mockStories: Story[] = [
     category: "Ambient Computing",
     readTime: 5,
     fireCount: 267,
-    imageUrl: "https://picsum.photos/seed/meta-rayban-display/84/84",
     content: [
       "Meta's Ray-Ban Display glasses ship with a heads-up display used for notifications, navigation, and basic information — a small, in-field-of-view layer that never requires pulling out a phone. Reports of several more smart-glasses models in development suggest this isn't a one-off product but a deliberate platform bet.",
       "The interesting design constraint isn't the display technology — it's restraint. A heads-up notification that's always in your peripheral vision has a much lower tolerance for noise than a phone screen you choose to look at. If glasses-based notifications feel anything like today's phone alert volume, users will reject the form factor outright. That means the success of this category depends on aggressive pre-filtering of what's even allowed to reach the display.",
@@ -150,7 +145,6 @@ export const mockStories: Story[] = [
     readTime: 5,
     fireCount: 289,
     spicy: true,
-    imageUrl: "https://picsum.photos/seed/openclaw-mobile/84/84",
     content: [
       "OpenClaw's architecture makes a deliberate bet that most mobile-AI coverage misses: the agent doesn't run on the phone. The phone is a thin client — a window into a persistent agent running elsewhere, with the app providing voice input, camera access, and, critically, the notification channel the agent uses to reach you.",
       "That reframes what a mobile notification even is in an agentic world. It's no longer \"an app telling you something happened\" — it's a long-running, stateful process reaching across a network boundary to interrupt you, asynchronously, whenever it decides your input is needed. The phone's job shifts from running the intelligence to being a reliable, low-latency delivery mechanism for that agent's occasional demands on your attention.",
@@ -178,7 +172,6 @@ export const mockStories: Story[] = [
     readTime: 5,
     fireCount: 203,
     spicy: true,
-    imageUrl: "https://picsum.photos/seed/mcp-notifications/84/84",
     content: [
       "MCP (Model Context Protocol) started as a way to let AI agents call external tools through a consistent API — git clients, search engines, home automation hubs. A distinct and fast-growing category of MCP servers has emerged around a narrower job: getting a notification onto a human's phone at exactly the moment an agent needs their attention.",
       "Pushary sends a push notification when any MCP-connected agent — Cursor, Claude Desktop, Claude Code, Windsurf, Lovable — finishes a long-running task or needs permission, letting the user approve from their phone in one tap. PushGo takes a gateway approach, exposing MCP tools that let authorized agents send message notifications through a scoped, OAuth-bound channel rather than a raw webhook.",
@@ -205,7 +198,6 @@ export const mockStories: Story[] = [
     category: "Platform Strategy",
     readTime: 4,
     fireCount: 224,
-    imageUrl: "https://picsum.photos/seed/ios27-summaries/84/84",
     content: [
       "iOS 27 summarizes, ranks, and filters notifications before a user ever sees them, and it does the entire job with a model running locally on the device — no server round trip, no internet dependency, no per-request inference cost. Apple's third-generation foundation models make this viable in a way earlier on-device attempts weren't.",
       "The immediate user-facing benefit is speed and offline reliability: summarization and ranking happen instantly, every time, on the lock screen, whether or not the phone has a network connection. But the more strategic detail is what it removes from Apple's cost structure — there's no server fleet to scale as notification volume grows, which matters enormously if agent-driven notification volume increases the way platform roadmaps suggest it will.",
@@ -233,7 +225,6 @@ export const mockStories: Story[] = [
     readTime: 4,
     fireCount: 256,
     spicy: true,
-    imageUrl: "https://picsum.photos/seed/notification-overload-2026/84/84",
     content: [
       "The headline number is stark on its own: U.S. smartphone users receive an average of 46 push notifications a day — nearly six every waking hour — and a single notification is enough to measurably slow cognitive processing for about seven seconds. Multiply that across a day and the attention tax is not trivial.",
       "The behavioral data backs up why this matters for anyone building notification systems. Sending even one push a week leads to a meaningful share of users disabling notifications or uninstalling an app outright; push six to ten times a week and uninstall rates climb sharply. Users consistently open only what feels relevant in the moment — everything else gets ignored, and enough of it triggers users to shut the whole channel off.",
