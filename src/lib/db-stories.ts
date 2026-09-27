@@ -73,8 +73,14 @@ export async function getApprovedStories(): Promise<Story[]> {
     .eq('status', 'approved')
     .order('created_at', { ascending: false });
 
-  if (error || !data) return [];
-  return (data as DbStory[]).map(mapDbStory);
+  // A real error (DB unreachable, paused project, etc.) must be loud — silently
+  // falling back to [] here is exactly how a paused Supabase project went
+  // unnoticed for months, since it looks identical to "no stories yet."
+  if (error) {
+    console.error('[db-stories] getApprovedStories failed:', error.message);
+    return [];
+  }
+  return (data ?? []).map(mapDbStory);
 }
 
 export async function getStoryBySlug(slug: string): Promise<Story | null> {
@@ -86,6 +92,9 @@ export async function getStoryBySlug(slug: string): Promise<Story | null> {
     .eq('status', 'approved')
     .maybeSingle();
 
-  if (error || !data) return null;
-  return mapDbStory(data as DbStory);
+  if (error) {
+    console.error(`[db-stories] getStoryBySlug("${slug}") failed:`, error.message);
+    return null;
+  }
+  return data ? mapDbStory(data) : null;
 }
