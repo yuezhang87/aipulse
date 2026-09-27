@@ -92,7 +92,9 @@ export async function processPost(post: PipelinePost): Promise<ProcessResult> {
   const score = Math.round(judgment.answers.signal.score);
   const category = judgment.answers.category.choice as Category;
 
-  if (score < 7) return { score, story: null };
+  // Overridable via env for testing without a redeploy; defaults to the real editorial bar.
+  const threshold = Number(process.env.PIPELINE_SCORE_THRESHOLD) || 7;
+  if (score < threshold) return { score, story: null };
 
   const userPrompt = `Rewrite this post as an aiPulse trend brief: state the signal plainly, then explain what it implies for the future of mobile notifications, agents, or ambient computing. 4-6 short paragraphs, analytical tone, no first-person narrative.
 
