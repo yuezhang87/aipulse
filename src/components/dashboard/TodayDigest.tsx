@@ -48,10 +48,10 @@ const FILTERS = ["All", ...CATEGORY_ORDER] as const;
 
 /**
  * Preloads the image itself (rather than relying on the rendered <img>'s onError) so a
- * broken URL falls back to the letter tile reliably — an SSR'd <img> can finish failing
- * before hydration attaches its listener, silently losing the error event.
+ * broken URL falls back to the cover placeholder reliably — an SSR'd <img> can finish
+ * failing before hydration attaches its listener, silently losing the error event.
  */
-function Thumbnail({ story, isRead }: { story: Story; isRead: boolean }) {
+function CardImage({ story, isRead, rank }: { story: Story; isRead: boolean; rank: number }) {
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
@@ -62,13 +62,13 @@ function Thumbnail({ story, isRead }: { story: Story; isRead: boolean }) {
     probe.src = story.imageUrl;
   }, [story.imageUrl]);
 
-  const color = isRead ? "#d8d6ea" : categoryHexColors[story.category] ?? "#5B4FC7";
+  const color = categoryHexColors[story.category] ?? "#5B4FC7";
   const showImage = Boolean(story.imageUrl) && !failed;
 
   return (
     <div
-      className="w-14 h-14 rounded-lg overflow-hidden shrink-0 flex items-center justify-center"
-      style={{ background: `${categoryHexColors[story.category] ?? "#5B4FC7"}1a` }}
+      className="relative w-full aspect-video overflow-hidden flex items-center justify-center"
+      style={{ background: `linear-gradient(135deg, ${color}33, ${color}0d)` }}
     >
       {showImage ? (
         // eslint-disable-next-line @next/next/no-img-element
@@ -78,9 +78,19 @@ function Thumbnail({ story, isRead }: { story: Story; isRead: boolean }) {
           className={`w-full h-full object-cover ${isRead ? "grayscale opacity-60" : ""}`}
         />
       ) : (
-        <span className="text-lg font-extrabold" style={{ color }}>
+        <span className="text-4xl font-extrabold" style={{ color: isRead ? `${color}55` : color }}>
           {story.title.charAt(0)}
         </span>
+      )}
+      <span className="absolute top-2 left-2 text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-black/55 text-white backdrop-blur-sm">
+        #{rank}
+      </span>
+      {!isRead && (
+        <span
+          className="absolute top-2 right-2 w-2.5 h-2.5 rounded-full ring-2 ring-white/80"
+          style={{ background: color }}
+          title="Unread"
+        />
       )}
     </div>
   );
@@ -208,75 +218,83 @@ export default function TodayDigest({ stories }: { stories: Story[] }) {
           No signals in this category yet.
         </p>
       ) : (
-        <div className="space-y-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map((s, i) => {
             const isRead = mounted && readSlugs.has(s.slug);
             const citation = `${s.title} — ${s.source} (${relativeTime(s.publishedAt)}). ${s.sourceUrl}`;
             return (
               <div
                 key={s.id}
-                className={`rounded-xl border p-4 transition-colors ${
-                  isRead ? "bg-[#faf9fd] border-[#e4e3ef]" : "bg-white border-[#e4e3ef] shadow-sm"
+                className={`rounded-2xl border overflow-hidden transition-shadow flex flex-col ${
+                  isRead ? "bg-[#faf9fd] border-[#e4e3ef]" : "bg-white border-[#e4e3ef] shadow-sm hover:shadow-md"
                 }`}
               >
-                <div className="flex items-start gap-3">
-                  <span className="text-xs font-black text-[#5B4FC7]/50 w-5 shrink-0 pt-0.5">
-                    {i + 1}
-                  </span>
-                  <Thumbnail story={s} isRead={isRead} />
-                  <div className="flex-1 min-w-0">
-                    <Link
-                      href={`/story/${s.slug}`}
-                      onClick={() => markRead(s.slug)}
-                      className={`text-sm font-semibold leading-snug hover:text-[#5B4FC7] ${
-                        isRead ? "text-[#1a1a2e] opacity-50" : "text-[#1a1a2e]"
-                      }`}
+                <Link href={`/story/${s.slug}`} onClick={() => markRead(s.slug)}>
+                  <CardImage story={s} isRead={isRead} rank={i + 1} />
+                </Link>
+
+                <div className="p-3.5 flex flex-col flex-1">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span
+                      className="w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold text-white shrink-0"
+                      style={{ background: isRead ? "#c9c6de" : categoryHexColors[s.category] ?? "#5B4FC7" }}
                     >
-                      <span
-                        className="inline-block w-1.5 h-1.5 rounded-full mr-1.5"
-                        style={{ background: isRead ? "#d8d6ea" : categoryHexColors[s.category] ?? "#5B4FC7" }}
-                        title={isRead ? "Read" : "Unread"}
-                      />
-                      {s.title}
-                      {s.spicy && <span className="ml-1.5 text-xs font-bold text-[#5B4FC7]">◆ bold</span>}
-                    </Link>
-                    <p
-                      className={`text-xs mt-1 leading-relaxed line-clamp-2 ${
-                        isRead ? "text-[#1a1a2e] opacity-30" : "text-[#1a1a2e] opacity-60"
-                      }`}
+                      {s.source.charAt(0)}
+                    </span>
+                    <span className="text-[11px] font-semibold text-[#1a1a2e] opacity-60 truncate">
+                      {s.source}
+                    </span>
+                    <span className="text-[10px] text-[#1a1a2e] opacity-35 ml-auto shrink-0">
+                      {relativeTime(s.publishedAt)}
+                    </span>
+                  </div>
+
+                  <Link
+                    href={`/story/${s.slug}`}
+                    onClick={() => markRead(s.slug)}
+                    className={`text-sm font-semibold leading-snug line-clamp-2 hover:text-[#5B4FC7] ${
+                      isRead ? "text-[#1a1a2e] opacity-50" : "text-[#1a1a2e]"
+                    }`}
+                  >
+                    {s.title}
+                    {s.spicy && <span className="ml-1.5 text-xs font-bold text-[#5B4FC7]">◆</span>}
+                  </Link>
+
+                  <p
+                    className={`text-xs mt-1.5 leading-relaxed line-clamp-2 ${
+                      isRead ? "text-[#1a1a2e] opacity-30" : "text-[#1a1a2e] opacity-60"
+                    }`}
+                  >
+                    {s.summary}
+                  </p>
+
+                  <div className="flex items-center gap-1.5 flex-wrap mt-2.5">
+                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full border border-[#e4e3ef] text-[#1a1a2e] opacity-60">
+                      {s.category}
+                    </span>
+                    {s.tool?.name && (
+                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full border border-[#e4e3ef] text-[#1a1a2e] opacity-60 truncate max-w-[10rem]">
+                        {s.tool.name}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="flex items-center gap-2.5 mt-auto pt-2.5 flex-wrap">
+                    <a
+                      href={s.sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[11px] text-[#1a1a2e] opacity-50 hover:opacity-100"
                     >
-                      {s.summary}
-                    </p>
-                    <div className="flex items-center gap-1.5 flex-wrap mt-2">
-                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full border border-[#e4e3ef] text-[#1a1a2e] opacity-60">
-                        {s.category}
-                      </span>
-                      {s.tool?.name && (
-                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full border border-[#e4e3ef] text-[#1a1a2e] opacity-60">
-                          {s.tool.name}
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-3 mt-2 flex-wrap">
-                      <span className="text-[11px] text-[#1a1a2e] opacity-40">
-                        {s.source} · {relativeTime(s.publishedAt)}
-                      </span>
-                      <a
-                        href={s.sourceUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[11px] text-[#1a1a2e] opacity-50 hover:opacity-100"
-                      >
-                        Original ↗
-                      </a>
-                      <CopyButton text={citation} label="Copy cite" />
-                      <button
-                        onClick={() => toggleRead(s.slug)}
-                        className="text-[11px] text-[#5B4FC7] hover:underline ml-auto"
-                      >
-                        {isRead ? "Mark unread" : "Mark read"}
-                      </button>
-                    </div>
+                      Original ↗
+                    </a>
+                    <CopyButton text={citation} label="Copy cite" />
+                    <button
+                      onClick={() => toggleRead(s.slug)}
+                      className="text-[11px] text-[#5B4FC7] hover:underline ml-auto"
+                    >
+                      {isRead ? "Mark unread" : "Mark read"}
+                    </button>
                   </div>
                 </div>
               </div>

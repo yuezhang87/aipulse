@@ -15,6 +15,7 @@ export interface ProcessedStory {
   toolUrl: string;
   spicy: boolean;
   sourceUrl: string;
+  imageUrl?: string;
 }
 
 export type ProcessResult =
@@ -138,6 +139,7 @@ ${post.content}`;
     toolUrl: parsed.toolUrl ?? '',
     spicy: parsed.spicy ?? false,
     sourceUrl: parsed.sourceUrl ?? post.url,
+    imageUrl: post.imageUrl,
   };
 
   return { score, story };

@@ -15,6 +15,7 @@ interface DevtoListItem {
 
 interface DevtoArticle extends DevtoListItem {
   body_markdown: string;
+  cover_image: string | null;
 }
 
 async function fetchByTag(tag: string): Promise<DevtoListItem[]> {
@@ -75,6 +76,7 @@ async function fetchDevtoPosts(): Promise<PipelinePost[]> {
       author: article.user.name,
       source: 'devto',
       score: article.positive_reactions_count,
+      imageUrl: article.cover_image ?? undefined,
     });
   }
 

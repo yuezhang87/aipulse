@@ -80,6 +80,7 @@ export async function POST(req: NextRequest) {
           source_url: story.sourceUrl,
           source: post.source,
           score: story.score,
+          image_url: story.imageUrl ?? null,
           status: 'pending',
         });
 
