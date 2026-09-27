@@ -5,7 +5,7 @@ import VolumeTrendChart from "@/components/dashboard/VolumeTrendChart";
 import RankedList from "@/components/dashboard/RankedList";
 import MomentumGrid from "@/components/dashboard/MomentumGrid";
 import BoldPredictions from "@/components/dashboard/BoldPredictions";
-import RecentSignals from "@/components/dashboard/RecentSignals";
+import TodayDigest from "@/components/dashboard/TodayDigest";
 import ReportDigest from "@/components/dashboard/ReportDigest";
 import { getApprovedStories } from "@/lib/db-stories";
 import { mockStories } from "@/lib/mock-stories";
@@ -76,6 +76,16 @@ export default async function DashboardPage() {
           <StatTile label="Sources monitored" value={distinctSources} />
         </div>
 
+        {/* Today's digest */}
+        <div className="bg-white border border-[#e4e3ef] rounded-2xl p-6 shadow-sm">
+          <h2 className="text-sm font-bold text-[#1a1a2e] mb-1">Today&apos;s digest</h2>
+          <p className="text-xs text-[#1a1a2e] opacity-40 mb-4">
+            Every tracked signal, ranked by importance — filter by theme, mark what you&apos;ve
+            already seen
+          </p>
+          <TodayDigest stories={stories} />
+        </div>
+
         {/* Momentum */}
         <div className="bg-white border border-[#e4e3ef] rounded-2xl p-6 shadow-sm">
           <div className="flex items-start justify-between gap-3 mb-1 flex-wrap">
@@ -142,20 +152,6 @@ export default async function DashboardPage() {
             What&apos;s actually shipping the features driving this trend
           </p>
           <RankedList data={toolCounts} />
-        </div>
-
-        {/* Recent signals */}
-        <div className="bg-white border border-[#e4e3ef] rounded-2xl p-6 shadow-sm">
-          <div className="flex items-start justify-between gap-3 mb-1 flex-wrap">
-            <h2 className="text-sm font-bold text-[#1a1a2e]">Recent signals</h2>
-            <span className="text-[11px] font-semibold text-[#5B4FC7] bg-[#5B4FC7]/10 rounded-md px-2 py-0.5 whitespace-nowrap">
-              → Appendix / citations
-            </span>
-          </div>
-          <p className="text-xs text-[#1a1a2e] opacity-40 mb-2">
-            Every tracked signal, most recent first — click a row for a quick summary
-          </p>
-          <RecentSignals stories={stories} />
         </div>
       </div>
 

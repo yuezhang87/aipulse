@@ -30,4 +30,6 @@ export interface Story {
   content: string[];
   tool: StoryTool;
   spicy?: boolean;
+  /** 1-10 signal-strength score from the pipeline's TypeSafe judgment, when available. */
+  score?: number;
 }
