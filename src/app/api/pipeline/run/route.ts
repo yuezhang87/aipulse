@@ -5,6 +5,9 @@ import { devtoSource } from '@/lib/pipeline/devto-scraper';
 import { processPost } from '@/lib/pipeline/claude-processor';
 import { PipelineSource } from '@/lib/pipeline/types';
 
+// Pipeline runs can take a while (multiple article fetches + Claude calls per source).
+export const maxDuration = 60;
+
 const PIPELINE_SECRET = 'aipulse-pipeline-2026';
 
 const SOURCES: PipelineSource[] = [
@@ -18,12 +21,7 @@ function getSupabase() {
   return createClient(url, key);
 }
 
-export async function POST(req: NextRequest) {
-  const secret = req.headers.get('x-pipeline-secret');
-  if (secret !== PIPELINE_SECRET) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
+async function runPipeline() {
   const supabase = getSupabase();
   let processed = 0;
   let approved = 0;
@@ -93,5 +91,27 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  return NextResponse.json({ processed, approved, saved });
+  return { processed, approved, saved };
+}
+
+export async function POST(req: NextRequest) {
+  const secret = req.headers.get('x-pipeline-secret');
+  if (secret !== PIPELINE_SECRET) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const result = await runPipeline();
+  return NextResponse.json(result);
+}
+
+// Vercel Cron invokes scheduled routes with GET and an
+// `Authorization: Bearer $CRON_SECRET` header (see vercel.json).
+export async function GET(req: NextRequest) {
+  const auth = req.headers.get('authorization');
+  if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const result = await runPipeline();
+  return NextResponse.json(result);
 }
