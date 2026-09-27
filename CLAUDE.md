@@ -15,3 +15,11 @@ The content pipeline's categorization/scoring judgment
 (`src/lib/pipeline/claude-processor.ts`) already uses TypeSafe's `Choice` and
 `Score` primitives via `@typesafe-ai/sdk`. Set `TYPESAFE_API_KEY` in the
 environment for it to run.
+
+## Project page
+
+Planning, priorities (P0/P1/etc.), and status updates for this project live on
+the Notion page below, not in this file. Post updates there instead of only in
+chat, and check it for current priorities before starting new work:
+
+https://app.notion.com/p/aiPulse-Notification-Agent-Trends-3e1f2bd6bbb081ad9b90fe0e3d1f6096
