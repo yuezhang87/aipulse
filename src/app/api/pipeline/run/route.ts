@@ -67,6 +67,7 @@ async function runPipeline() {
         }
 
         const result = outcome.value;
+        console.log(`[${source.name}] "${post.title}" scored ${result.score}${result.story ? ' — approved' : ''}`);
         if (!result.story) continue;
         approved++;
 
