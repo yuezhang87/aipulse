@@ -46,6 +46,46 @@ function saveReadSlugs(slugs: Set<string>) {
 type SortMode = "importance" | "recent";
 const FILTERS = ["All", ...CATEGORY_ORDER] as const;
 
+/**
+ * Preloads the image itself (rather than relying on the rendered <img>'s onError) so a
+ * broken URL falls back to the letter tile reliably — an SSR'd <img> can finish failing
+ * before hydration attaches its listener, silently losing the error event.
+ */
+function Thumbnail({ story, isRead }: { story: Story; isRead: boolean }) {
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    if (!story.imageUrl) return;
+    setFailed(false);
+    const probe = new window.Image();
+    probe.onerror = () => setFailed(true);
+    probe.src = story.imageUrl;
+  }, [story.imageUrl]);
+
+  const color = isRead ? "#d8d6ea" : categoryHexColors[story.category] ?? "#5B4FC7";
+  const showImage = Boolean(story.imageUrl) && !failed;
+
+  return (
+    <div
+      className="w-14 h-14 rounded-lg overflow-hidden shrink-0 flex items-center justify-center"
+      style={{ background: `${categoryHexColors[story.category] ?? "#5B4FC7"}1a` }}
+    >
+      {showImage ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={story.imageUrl}
+          alt=""
+          className={`w-full h-full object-cover ${isRead ? "grayscale opacity-60" : ""}`}
+        />
+      ) : (
+        <span className="text-lg font-extrabold" style={{ color }}>
+          {story.title.charAt(0)}
+        </span>
+      )}
+    </div>
+  );
+}
+
 export default function TodayDigest({ stories }: { stories: Story[] }) {
   const [readSlugs, setReadSlugs] = useState<Set<string>>(new Set());
   const [mounted, setMounted] = useState(false);
@@ -183,11 +223,7 @@ export default function TodayDigest({ stories }: { stories: Story[] }) {
                   <span className="text-xs font-black text-[#5B4FC7]/50 w-5 shrink-0 pt-0.5">
                     {i + 1}
                   </span>
-                  <span
-                    className="w-2 h-2 rounded-full shrink-0 mt-1.5"
-                    style={{ background: isRead ? "#d8d6ea" : categoryHexColors[s.category] ?? "#5B4FC7" }}
-                    title={isRead ? "Read" : "Unread"}
-                  />
+                  <Thumbnail story={s} isRead={isRead} />
                   <div className="flex-1 min-w-0">
                     <Link
                       href={`/story/${s.slug}`}
@@ -196,6 +232,11 @@ export default function TodayDigest({ stories }: { stories: Story[] }) {
                         isRead ? "text-[#1a1a2e] opacity-50" : "text-[#1a1a2e]"
                       }`}
                     >
+                      <span
+                        className="inline-block w-1.5 h-1.5 rounded-full mr-1.5"
+                        style={{ background: isRead ? "#d8d6ea" : categoryHexColors[s.category] ?? "#5B4FC7" }}
+                        title={isRead ? "Read" : "Unread"}
+                      />
                       {s.title}
                       {s.spicy && <span className="ml-1.5 text-xs font-bold text-[#5B4FC7]">◆ bold</span>}
                     </Link>
