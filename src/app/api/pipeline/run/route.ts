@@ -105,10 +105,16 @@ export async function POST(req: NextRequest) {
 }
 
 // Vercel Cron invokes scheduled routes with GET and an
-// `Authorization: Bearer $CRON_SECRET` header (see vercel.json).
+// `Authorization: Bearer $CRON_SECRET` header (see vercel.json). The
+// `?secret=` query param is an alternate way to authenticate the same
+// GET route for a manual/ad-hoc run (e.g. from a browser or a tool that
+// can't set custom headers).
 export async function GET(req: NextRequest) {
   const auth = req.headers.get('authorization');
-  if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
+  const querySecret = req.nextUrl.searchParams.get('secret');
+  const authorized =
+    auth === `Bearer ${process.env.CRON_SECRET}` || querySecret === process.env.CRON_SECRET;
+  if (!authorized) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
