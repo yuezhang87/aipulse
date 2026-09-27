@@ -45,12 +45,12 @@ Be strict — most posts should score 5-7. Only exceptional posts score 9-10.`;
 // Indexed by score, from zero, matching the four-criteria rubric above (max 3+3+2+2=10).
 const SIGNAL_SCORE_CRITERIA = [
   "Not about notifications or an AI agent acting on a user's behalf; or a personal complaint/opinion with no forward-looking signal and no credible source.",
-  null,
+  'Barely relevant: touches notifications/agents only in passing, from a low-credibility source, with no forward-looking claim.',
   'Weak signal: barely touches notifications/agents, from a low-credibility source, with no forward-looking claim.',
-  null,
+  'Marginal: a thin connection to notifications/agents, limited credibility or specifics, no real forward-looking angle.',
   'Below-bar: touches the topic but is generic AI hype, a vague opinion, or lacks concrete specifics from a credible source.',
   'Solid but ordinary: clearly about notifications/agents from a credible source with concrete specifics, but no real forward-looking signal or bold take.',
-  null,
+  'Above ordinary: credible and specific like the level below, with an emerging but not fully developed forward-looking angle.',
   'Good signal: specifically about notifications/agents, from a credible source with concrete specifics, and carries a real forward-looking signal about where things are heading.',
   'Strong signal: everything in the prior level, and notably bold, contrarian, or non-obvious about the future direction.',
   'Exceptional: an unusually sharp, concrete, and bold forward-looking signal from a highly credible source — a rare must-read.',
