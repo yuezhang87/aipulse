@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "aiPulse — AI Stories Discovery",
-  description: "Discover the latest AI stories, breakthroughs, and insights curated for you.",
+  title: "aiPulse — Notification & Agent Trends",
+  description: "Tracking how mobile notifications and AI agents are evolving, before it becomes obvious.",
   icons: {
     icon: "/favicon.svg",
   },

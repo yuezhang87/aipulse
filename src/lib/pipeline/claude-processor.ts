@@ -98,7 +98,7 @@ export async function processPost(post: PipelinePost): Promise<ProcessResult> {
 
   const userPrompt = `Rewrite this post as an aiPulse trend brief: state the signal plainly, then explain what it implies for the future of mobile notifications, agents, or ambient computing. 4-6 short paragraphs, analytical tone, no first-person narrative.
 
-Return JSON only: { title, slug, summary, content: string[], author, tool, toolUrl, spicy: boolean, sourceUrl }
+Return JSON only: { title, slug, summary, content: string[], author, tool, toolUrl, spicy: boolean }
 
 author: the publication or outlet name (not a person), unless the post itself names an individual analyst.
 tool: the specific product, platform, or protocol at the center of the signal (e.g. a named feature, app, or standard).
@@ -139,7 +139,8 @@ ${post.content}`;
     tool: parsed.tool ?? '',
     toolUrl: parsed.toolUrl ?? '',
     spicy: parsed.spicy ?? false,
-    sourceUrl: parsed.sourceUrl ?? post.url,
+    // Always the URL we actually scraped — never trust a model-rewritten one (seen it hallucinate a placeholder).
+    sourceUrl: post.url,
     imageUrl: post.imageUrl,
   };
 
