@@ -4,6 +4,8 @@ import { isNotificationRelevant } from './relevance';
 const TAGS = ['android', 'ios', 'mobiledev', 'ai', 'llm', 'agents'];
 const MIN_REACTIONS = 30;
 const MIN_BODY_LENGTH = 500;
+// Caps worst-case cost/load per run — mirrors hn-scraper's MAX_ARTICLE_FETCHES.
+const MAX_ARTICLE_FETCHES = 15;
 
 interface DevtoListItem {
   id: number;
@@ -57,9 +59,13 @@ async function fetchDevtoPosts(): Promise<PipelinePost[]> {
     }
   }
 
+  // Prioritize the strongest signals first, then cap how many we fetch/process.
+  candidates.sort((a, b) => b.positive_reactions_count - a.positive_reactions_count);
+  const toFetch = candidates.slice(0, MAX_ARTICLE_FETCHES);
+
   // Step 2: fetch full articles (with body_markdown) in parallel for candidates
   const fullResults = await Promise.allSettled(
-    candidates.map((c) => fetchFullArticle(c.id)),
+    toFetch.map((c) => fetchFullArticle(c.id)),
   );
 
   const posts: PipelinePost[] = [];
