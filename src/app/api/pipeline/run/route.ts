@@ -86,7 +86,8 @@ async function runPipeline() {
           source: post.source,
           score: story.score,
           image_url: story.imageUrl ?? null,
-          status: 'pending',
+          // No manual review step: a post that cleared the score gate goes straight to the dashboard.
+          status: 'approved',
         });
 
         if (error) {
