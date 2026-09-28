@@ -34,6 +34,16 @@ async function runPipeline() {
   let saved = 0;
   const seenUrls = new Set<string>();
 
+  // Dedup against every URL already in the table (any status), not just
+  // within this run — otherwise re-running the pipeline against the same
+  // live feeds (e.g. manual triggers between cron runs) reprocesses the
+  // same articles and inserts near-duplicate rows with reworded titles.
+  const { data: existingRows, error: existingError } = await supabase
+    .from('pending_stories')
+    .select('source_url');
+  if (existingError) console.error('Failed to load existing source_urls for dedup:', existingError.message);
+  const existingUrls = new Set((existingRows ?? []).map((r) => r.source_url));
+
   for (const source of SOURCES) {
     let posts;
     try {
@@ -44,7 +54,7 @@ async function runPipeline() {
     }
 
     posts = posts.filter((p) => {
-      if (seenUrls.has(p.url)) return false;
+      if (seenUrls.has(p.url) || existingUrls.has(p.url)) return false;
       seenUrls.add(p.url);
       return true;
     });
