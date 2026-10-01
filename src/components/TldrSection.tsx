@@ -30,6 +30,44 @@ export default function TldrSection({ summary, content }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Browsers default to whatever system voice loads first, which is usually
+  // the lowest-quality, most robotic-sounding one. Chrome/Edge also ship a
+  // handful of better, more natural-sounding voices — just not selected by
+  // default. Picking one explicitly is free (still the browser's own voice,
+  // no paid TTS API) and meaningfully less robotic.
+  function getVoicesAsync(): Promise<SpeechSynthesisVoice[]> {
+    return new Promise((resolve) => {
+      const voices = window.speechSynthesis.getVoices();
+      if (voices.length > 0) {
+        resolve(voices);
+        return;
+      }
+      // getVoices() can return [] before the async voice list has loaded.
+      window.speechSynthesis.onvoiceschanged = () => {
+        resolve(window.speechSynthesis.getVoices());
+      };
+      setTimeout(() => resolve(window.speechSynthesis.getVoices()), 500);
+    });
+  }
+
+  function pickBestVoice(voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
+    if (voices.length === 0) return null;
+    const enVoices = voices.filter((v) => v.lang.toLowerCase().startsWith("en"));
+    const pool = enVoices.length > 0 ? enVoices : voices;
+
+    // Natural/Neural/Online voices are cloud- or model-backed and sound far
+    // less robotic than the default offline system voice.
+    const natural = pool.find((v) => /natural|neural|online/i.test(v.name));
+    if (natural) return natural;
+
+    // Chrome's "Google US English" is also noticeably better than its
+    // default "Microsoft David/Zira"-style offline voices.
+    const google = pool.find((v) => /google/i.test(v.name) && v.lang === "en-US");
+    if (google) return google;
+
+    return pool.find((v) => v.lang === "en-US") ?? pool[0];
+  }
+
   function stopSpeech() {
     stoppedRef.current = true;
     if (keepaliveRef.current) {
@@ -43,7 +81,7 @@ export default function TldrSection({ summary, content }: Props) {
     setIsPlaying(false);
   }
 
-  function handleListen() {
+  async function handleListen() {
     if (!("speechSynthesis" in window)) {
       setError("Not supported on this browser");
       return;
@@ -64,6 +102,9 @@ export default function TldrSection({ summary, content }: Props) {
       return;
     }
 
+    const voice = pickBestVoice(await getVoicesAsync());
+    if (stoppedRef.current) return; // stopped while voices were loading
+
     // Split into sentences so Safari never has to handle one long utterance.
     // Safari cuts off audio mid-way through long strings; short sentences chain fine.
     const sentences = realText
@@ -76,7 +117,8 @@ export default function TldrSection({ summary, content }: Props) {
       const u = new SpeechSynthesisUtterance(sentence);
       u.rate = 0.95;
       u.pitch = 1;
-      u.lang = "en-US";
+      u.lang = voice?.lang ?? "en-US";
+      if (voice) u.voice = voice;
       return u;
     });
 
