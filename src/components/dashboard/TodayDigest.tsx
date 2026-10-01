@@ -100,7 +100,7 @@ export default function TodayDigest({ stories }: { stories: Story[] }) {
   const [readSlugs, setReadSlugs] = useState<Set<string>>(new Set());
   const [mounted, setMounted] = useState(false);
   const [category, setCategory] = useState<string>("All");
-  const [sortMode, setSortMode] = useState<SortMode>("importance");
+  const [sortMode, setSortMode] = useState<SortMode>("recent");
 
   useEffect(() => {
     setReadSlugs(loadReadSlugs());
