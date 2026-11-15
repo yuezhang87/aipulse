@@ -16,6 +16,25 @@ The content pipeline's categorization/scoring judgment
 `Score` primitives via `@typesafe-ai/sdk`. Set `TYPESAFE_API_KEY` in the
 environment for it to run.
 
+## Decision escalation format
+
+This applies across Yue's whole project portfolio (aiPulse, NamNamScore,
+idea-collector, personal site, content pipeline), not just this repo — it
+lives here because this is where the cross-project orchestration skills
+(`recap`, `learning`, `resume`) also live.
+
+Yue wants to operate at a founder/CEO level: execute autonomously, only
+escalate when a real decision is needed. When escalating, never raise a bare
+question. Every decision brought to Yue must include:
+- What's actually being decided (not a vague "should we do X?")
+- Pros and cons of the real options, not just the one you'd pick
+- Short-term vs. long-term implications — a choice that's fine now might
+  cost more later, or vice versa
+
+If you can't articulate the tradeoffs yet, that means the decision isn't
+ready to escalate — go think it through further first, don't offload that
+work onto Yue.
+
 ## Project page
 
 Planning, priorities (P0/P1/etc.), and status updates for this project live on
