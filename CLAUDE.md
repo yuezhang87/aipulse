@@ -35,6 +35,25 @@ If you can't articulate the tradeoffs yet, that means the decision isn't
 ready to escalate — go think it through further first, don't offload that
 work onto Yue.
 
+## What gets noted (Notion/docs) without asking, vs. what needs to ask
+
+This applies across Yue's whole project portfolio, same scope as the
+decision-escalation rule above. Agreed with Yue on 2026-11-16.
+
+1. **Facts and status → note directly, don't ask.** Things that are just
+   true now (a push happened, a repo exists, a blocker is confirmed real) —
+   recording them isn't a judgment call, so asking first is just friction.
+2. **Decisions, stances, or scope calls → always ask first**, even a small
+   one. Once something is written into Notion, a future skim reads it as
+   settled — so whether it's actually decided, and whether it's worth
+   recording, is Yue's call, not something to infer.
+3. **Not-yet-decided but useful reference material (e.g. screenshots of a
+   competitor/reference app) → note directly, no need to ask, but it must be
+   labeled unmistakably as "reference / undecided."** If you aren't
+   confident the label will read as clearly provisional, fall back to rule 2
+   and ask instead — mislabeling a reference as settled is worse than one
+   extra question would have been.
+
 ## Project page
 
 Planning, priorities (P0/P1/etc.), and status updates for this project live on
