@@ -1,25 +1,38 @@
 ---
 name: learning
 description: >
-  Capture something Yue just learned from Claude's explanation as a
-  learning-log entry, written in Yue's own voice, for future content
-  (learning log posts, video topics). Use this whenever Claude has just
-  explained a concept, mechanism, or "why" that Yue didn't know — invoke it
-  explicitly via /learning right after such an explanation, and also when Yue
-  says things like "这是个 learning", "记一下这个", or similar, even without
-  the exact slash command. This is about capturing *understanding*, distinct
-  from the `recap` skill, which tracks *task/project progress* — don't use
-  this one for "what we built", only for "what Yue now understands that they
-  didn't before."
+  Capture a learning-log entry in Yue's own voice, for future content
+  (learning log posts, video topics). Two distinct triggers: (1) Claude just
+  explained a concept, mechanism, or "why" that Yue didn't know; (2) Yue just
+  made a real decision or took a stance after weighing it through
+  conversation (especially one raised via the `recap`/CLAUDE.md
+  decision-escalation format — pros/cons, short vs long term) — the
+  reasoning behind *Yue's own* call is often better content than Claude
+  explaining something, since it's Yue's judgment on display, not a lecture.
+  Invoke it explicitly via /learning right after either kind of moment, and
+  also when Yue says things like "这是个 learning", "记一下这个", or similar,
+  even without the exact slash command. This is about capturing
+  *understanding or judgment*, distinct from the `recap` skill, which tracks
+  *task/project progress* — don't use this one for "what we built", only for
+  "what Yue now understands, or how Yue decided, that's worth telling others
+  about."
 ---
 
 # Learning
 
 ## 1. Find the delta
 
-Look at what Claude just explained in this conversation — the thing Yue
-didn't know and now does. Name the delta plainly: what Yue believed or
-didn't know before, and what's actually true.
+Two shapes this can take — identify which one just happened:
+
+- **Explained-to-Yue**: Claude explained a concept/mechanism/why that Yue
+  didn't know. The delta is what Yue believed or didn't know before, vs.
+  what's actually true.
+- **Yue's own call**: Yue weighed a real decision (options, pros/cons,
+  short- vs long-term tradeoffs — often one Claude raised using the
+  decision-escalation format) and landed on a stance. The delta here isn't
+  "Yue learned a fact" — it's "Yue's reasoning, laid out for someone else to
+  learn from." Capture the actual tradeoff and why Yue chose what they
+  chose, not just the conclusion.
 
 ## 2. Draft the entry, show it, don't save yet
 
